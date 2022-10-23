@@ -1,0 +1,39 @@
+<section class="details-page">
+    <h1>Details</h1>
+    <article class="details-card">
+
+        <article class="details-card-text">
+            <h2>Title:<br> {{book.title}}</h2>
+            <h3>Author: {{book.author}}</h3>
+            <h3>Stars: {{book.stars}}</h3>
+            <h3>Genre: {{book.genre}}</h3>
+            <h3>Review: {{book.review}}
+            </h3>
+
+            {{#if user}}
+            <!-- If there is no registered user, do not display buttons-->
+            <div class="buttons">
+                {{#if book.isOwner}}
+                <!-- Only for registered user and author of the review -->
+                <a href="/book/{{book._id}}/edit" class="btn-edit">Edit</a>
+                <a href="/book/{{book._id}}/delete" class="btn-delete">Delete</a>
+                {{else}}
+                {{#if book.wish}}
+                <p class="wish-pub">You already added the book to your wish list</p>
+                <!-- logged in user who has not yet wished book-->
+                {{else}}
+                <a href="/book/{{book._id}}/wish" class="btn-wish">Wish to read</a>
+                <!-- logged in user who has already wished book-->
+                {{/if}}
+                {{/if}}
+            </div>
+            {{/if}}
+
+        </article>
+
+        <article class="details-card-image">
+            <img src="{{book.imageUrl}}">
+        </article>
+
+    </article>
+</section>

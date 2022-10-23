@@ -50,7 +50,7 @@ authController.post('/login', hasUser(), async (req, res) => {
 
         //add token to response
         res.cookie('token', token);
-        res.redirect('/'); nt
+        res.redirect('/');
     } catch (error) {
         const errors = parseError(error);
         res.render('login', {

@@ -1,5 +1,5 @@
 const { isGuest } = require('../middlewares/guard');
-const { createCrypto } = require('../services/cryptoService');
+const { createCrypto, getAll } = require('../services/cryptoService');
 const { parseError } = require('../util/parser');
 const cryptoController = require('express').Router()
 
@@ -7,12 +7,22 @@ const cryptoController = require('express').Router()
 //guards
 
 
-cryptoController.get('/catalog', (req, res) => {
+cryptoController.get('/catalog', async (req, res) => {
     //take real cryptos from servicec and send
-    res.render('catalog', {
-        title: 'Catalog Page',
-        user: req.user
-    })
+    let crypto = []
+    try {
+        crypto = await getAll();
+        res.render('catalog', {
+            title: 'Catalog Page',
+            user: req.user,
+            crypto
+        })
+    } catch (error) {
+        res.render('home', {
+            error: parseError(error),
+            user: req.user
+        })
+    }
 })
 
 cryptoController.get('/create', isGuest(), (req, res) => {

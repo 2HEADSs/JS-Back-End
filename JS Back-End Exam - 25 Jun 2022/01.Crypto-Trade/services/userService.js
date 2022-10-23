@@ -5,7 +5,7 @@ const user = require('../models/User');
 
 const JWT_SECRET = 'q982hdeoaus0ajaa'
 
-async function register(username, password) {
+async function register(username, email, password) {
     //check if username is already exist
 
     //collation to search case insensitive
@@ -18,6 +18,7 @@ async function register(username, password) {
 
     const user = await User.create({
         username,
+        email,
         hashedPassword
     });
 
@@ -28,6 +29,7 @@ async function register(username, password) {
 
 async function login(username, password) {
     const user = await User.findOne({ username }).collation({ locale: 'en', strength: 2 });
+    console.log(user);
     if (!user) {
         throw new Error('Incorrect username or password!');
     }

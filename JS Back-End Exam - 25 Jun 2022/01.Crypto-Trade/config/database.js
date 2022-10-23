@@ -11,7 +11,7 @@ module.exports = async (app) => {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })
-        console.log('Database connected on sceletonWithKostadinow');
+        console.log('Database connected on crypto-trade');
     } catch (error) {
         console.error(error.message);
         //procces.exit(1) - stop application

@@ -13,7 +13,7 @@ authController.get('/register', (req, res) => {
 authController.post('/register', async (req, res) => {
 
     try {
-        if (req.body.password == '' || req.body.username == '' || req.body.password == '' || req.body.repass == '') {
+        if (req.body.email == '' || req.body.username == '' || req.body.password == '' || req.body.repass == '') {
             throw new Error('All fields are required!')
         }
         if (req.body.password != req.body.repass) {
@@ -49,8 +49,9 @@ authController.get('/login', (req, res) => {
 });
 
 authController.post('/login', async (req, res) => {
+
     try {
-        const token = await login(req.body.username, req.body.password);
+        const token = await login(req.body.email, req.body.password);
 
         //add token to response
         res.cookie('token', token);

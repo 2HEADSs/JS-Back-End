@@ -27,9 +27,8 @@ async function register(username, email, password) {
     return createSession(user)
 }
 
-async function login(username, password) {
-    const user = await User.findOne({ username }).collation({ locale: 'en', strength: 2 });
-    console.log(user);
+async function login(email, password) {
+    const user = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
     if (!user) {
         throw new Error('Incorrect username or password!');
     }
@@ -40,15 +39,17 @@ async function login(username, password) {
         throw new Error('Incorrect username or password!');
     }
 
+    console.log(user);
     return createSession(user)
 
 }
 
 //method do sign(create) payload for cookie- will not be exports
-function createSession({ _id, username }) {
+function createSession({ _id, username, email }) {
     const payload = {
         _id,
-        username
+        username,
+        email
         //TODO SEE IF EXPIRES TIME FOR TOKEN
     }
 

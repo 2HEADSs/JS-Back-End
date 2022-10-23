@@ -50,7 +50,7 @@ function createSession({ _id, username, email }) {
         _id,
         username,
         email
-        //TODO SEE IF EXPIRES TIME FOR TOKEN
+
     }
 
     //return token

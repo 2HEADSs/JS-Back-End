@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 
-//TODO change database according to assignment
 const CONNECTION_STRING = require('../connectionString')
 
 

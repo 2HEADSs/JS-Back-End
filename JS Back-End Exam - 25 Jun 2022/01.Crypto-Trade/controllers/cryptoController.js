@@ -1,5 +1,5 @@
 const { isGuest } = require('../middlewares/guard');
-const { createCrypto, getAll } = require('../services/cryptoService');
+const { createCrypto, getAll, getById, editById } = require('../services/cryptoService');
 const { parseError } = require('../util/parser');
 const cryptoController = require('express').Router()
 
@@ -41,9 +41,6 @@ cryptoController.post('/create', isGuest(), async (req, res) => {
         description: req.body.description,
         owner: req.user._id,
     }
-    console.log(crypto);
-
-
     try {
         await createCrypto(crypto)
         res.redirect('/crypto/catalog')
@@ -52,6 +49,54 @@ cryptoController.post('/create', isGuest(), async (req, res) => {
             errors: parseError(error),
             //BODY
             body: crypto,
+            user: req.user
+        })
+    }
+});
+
+
+cryptoController.get('/details/:id', async (req, res) => {
+    const crypto = await getById(req.params.id)
+    crypto.isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
+    crypto.bayer = false;
+    res.render('details', {
+        title: 'Details Page',
+        user: req.user,
+        crypto,
+    })
+});
+
+cryptoController.get('/edit/:id', async (req, res) => {
+    //TODO guard for Owner
+    const crypto = await getById(req.params.id)
+    const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
+    if (!isOwner) {
+        res.redirect('/')
+    }
+
+    res.render('edit', {
+        title: 'Edit Page',
+        user: req.user,
+        crypto,
+    })
+})
+
+cryptoController.post('/edit/:id', async (req, res) => {
+    //TODO guard for Owner
+    const crypto = await getById(req.params.id)
+    const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
+    if (!isOwner) {
+        res.redirect('/')
+
+    }
+
+    try {
+        await editById(req.params.id, req.body)
+        res.redirect(`/crypto/details/${req.params.id}`)
+    } catch (error) {
+        res.render('edit', {
+            error: parseError(error),
+            crypto,
             user: req.user
         })
     }

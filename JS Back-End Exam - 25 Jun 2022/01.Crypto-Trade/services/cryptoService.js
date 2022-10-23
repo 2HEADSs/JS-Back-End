@@ -11,12 +11,24 @@ async function createCrypto(crypto) {
 }
 
 async function getById(id) {
-    return Crypto.findById(id)
+    return Crypto.findById(id).lean()
+}
+
+async function editById(id, data) {
+    const existing = await Crypto.findById(id);
+    existing.name = data.name
+    existing.imageUrl = data.imageUrl
+    existing.price = data.price
+    existing.description = data.description
+    existing.payment = data.payment
+
+    return existing.save()
 }
 
 
 module.exports = {
     getAll,
     createCrypto,
-    getById
+    getById,
+    editById
 }

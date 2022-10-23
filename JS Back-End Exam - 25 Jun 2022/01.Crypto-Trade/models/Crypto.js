@@ -30,6 +30,6 @@ const cryptoSchema = new Schema({
 cryptoSchema.path('payment').required(true, 'This payment is not allowed!')
 
 
-const Crypto = model('Book', cryptoSchema);
+const Crypto = model('Crypto', cryptoSchema);
 
 module.exports = Crypto

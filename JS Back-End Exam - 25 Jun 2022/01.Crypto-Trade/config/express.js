@@ -12,7 +12,7 @@ module.exports = (app) => {
 
     //view engine attached to .hbs - extension
     //view ingine allow us to use render 
-    app.engine('.hbs', hbs.engine);
+    app.engine('.hbs', hbs.engine,);
 
     // app.set allow us not to write .hbs to everything - write only the name of template
     app.set('view engine', 'hbs');

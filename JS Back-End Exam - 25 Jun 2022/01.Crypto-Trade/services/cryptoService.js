@@ -29,11 +29,17 @@ async function editById(id, data) {
     return existing.save()
 }
 
+async function buyCrypto(cryptoId, userId) {
+    const existing = await Crypto.findById(cryptoId)
+    existing.buyer.push(userId);
+    return existing.save()
+}
 
 module.exports = {
     getAll,
     createCrypto,
     getById,
     editById,
-    deleteById
+    deleteById,
+    buyCrypto
 }

@@ -1,5 +1,5 @@
 const { isGuest } = require('../middlewares/guard');
-const { createCrypto, getAll, getById, editById, deleteById } = require('../services/cryptoService');
+const { createCrypto, getAll, getById, editById, deleteById, getOneDetails, buyCrypto } = require('../services/cryptoService');
 const { parseError } = require('../util/parser');
 const cryptoController = require('express').Router()
 
@@ -25,7 +25,10 @@ cryptoController.get('/catalog', async (req, res) => {
     }
 })
 
-cryptoController.get('/create', isGuest(), (req, res) => {
+cryptoController.get('/create', (req, res) => {
+    if (isGuest()) {
+        res.redirect('/auth/login')
+    }
     res.render('create', {
         title: 'Create offer',
         user: req.user
@@ -59,7 +62,8 @@ cryptoController.get('/details/:id', async (req, res) => {
     const crypto = await getById(req.params.id)
     //isOwner is for edit and delete functionality
     crypto.isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
-    crypto.bayer = false;
+
+    crypto.bayer = crypto.buyer.map(x => x.toString()).includes(req.user._id.toString())
     res.render('details', {
         title: 'Details Page',
         user: req.user,
@@ -114,6 +118,16 @@ cryptoController.get('/delete/:id', async (req, res) => {
     res.redirect('/crypto/catalog')
 });
 
+
+cryptoController.get('/buy/:id', async (req, res) => {
+    const crypto = await getById(req.params.id)
+    if (crypto.owner.toString() != (req.user?._id)?.toString()
+        && crypto.buyer.map(x => x.toString()).includes(req.user._id.toString()) == false) {
+        await buyCrypto(req.params.id, req.user._id);
+        res.redirect(`/details/${req.params.id}`)
+
+    }
+})
 
 
 

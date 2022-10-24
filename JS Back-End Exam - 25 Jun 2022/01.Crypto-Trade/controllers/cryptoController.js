@@ -72,7 +72,7 @@ cryptoController.get('/edit/:id', async (req, res) => {
     const crypto = await getById(req.params.id)
     const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
     if (!isOwner) {
-        res.redirect('/')
+        res.redirect('/auth/login')
     }
 
     res.render('edit', {
@@ -87,7 +87,7 @@ cryptoController.post('/edit/:id', async (req, res) => {
     const crypto = await getById(req.params.id)
     const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
     if (!isOwner) {
-        res.redirect('/')
+        res.redirect('/auth/login')
     }
 
     try {

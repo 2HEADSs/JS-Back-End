@@ -7,12 +7,19 @@ const trimBody = require('../middlewares/trimBody');
 
 module.exports = (app) => {
     const hbs = handlebars.create({
-        extname: '.hbs'
+        extname: '.hbs',
+        helpers: {
+            select:  function(selected, options) {
+                return options.fn(this).replace(
+                    new RegExp(' value=\"' + selected + '\"'),
+                    '$& selected="selected"');
+            }
+        }
     });
 
     //view engine attached to .hbs - extension
     //view ingine allow us to use render 
-    app.engine('.hbs', hbs.engine,);
+    app.engine('.hbs', hbs.engine);
 
     // app.set allow us not to write .hbs to everything - write only the name of template
     app.set('view engine', 'hbs');

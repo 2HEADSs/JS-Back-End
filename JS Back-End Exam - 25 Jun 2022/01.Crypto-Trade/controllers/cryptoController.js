@@ -25,10 +25,7 @@ cryptoController.get('/catalog', async (req, res) => {
     }
 })
 
-cryptoController.get('/create', (req, res) => {
-    if (isGuest()) {
-        res.redirect('/auth/login')
-    }
+cryptoController.get('/create', isGuest(), (req, res) => {
     res.render('create', {
         title: 'Create offer',
         user: req.user
@@ -63,7 +60,7 @@ cryptoController.get('/details/:id', async (req, res) => {
     //isOwner is for edit and delete functionality
     crypto.isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
 
-    crypto.bayer = crypto.buyer.map(x => x.toString()).includes(req.user._id.toString())
+    crypto.bayer = crypto.buyer.map(x => x.toString()).includes(req.user?._id.toString())
     res.render('details', {
         title: 'Details Page',
         user: req.user,
@@ -119,15 +116,25 @@ cryptoController.get('/delete/:id', async (req, res) => {
 });
 
 
-cryptoController.get('/buy/:id', async (req, res) => {
+cryptoController.get('/buy/:id', isGuest(), async (req, res) => {
     const crypto = await getById(req.params.id)
     if (crypto.owner.toString() != (req.user?._id)?.toString()
-        && crypto.buyer.map(x => x.toString()).includes(req.user._id.toString()) == false) {
-        await buyCrypto(req.params.id, req.user._id);
-        res.redirect(`/details/${req.params.id}`)
+        && crypto.buyer.map(x => x.toString()).includes((req.user?._id)?.toString()) == false) {
+        try {
+            await buyCrypto(req.params.id, req.user._id);
+            res.redirect(`/crypto/details/${req.params.id}`)
+        } catch (error) {
+            res.render('catalog', {
+                error: parseError(error),
+                crypto,
+                user: req.user
+            })
+        }
 
     }
-})
+});
+
+
 
 
 

@@ -14,7 +14,7 @@ function isGuest() {
             //TODO redirect from assignment for correct redirect
             next()
         } else {
-            res.redirect('/')
+            res.redirect('/auth/login')
         }
     }
 };

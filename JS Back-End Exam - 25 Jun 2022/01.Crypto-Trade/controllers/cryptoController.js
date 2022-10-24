@@ -108,7 +108,7 @@ cryptoController.get('/delete/:id', async (req, res) => {
     const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
 
     if (!isOwner) {
-        return res.redirect(`/auth/login/${req.params.id}`)
+        return res.redirect(`/auth/login/`)
     }
     await deleteById(req.params.id)
     res.redirect('/crypto/catalog')

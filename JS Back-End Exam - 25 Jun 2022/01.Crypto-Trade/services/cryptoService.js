@@ -14,6 +14,10 @@ async function getById(id) {
     return Crypto.findById(id).lean()
 }
 
+async function deleteById(id) {
+    return Crypto.findByIdAndDelete(id)
+}
+
 async function editById(id, data) {
     const existing = await Crypto.findById(id);
     existing.name = data.name
@@ -30,5 +34,6 @@ module.exports = {
     getAll,
     createCrypto,
     getById,
-    editById
+    editById,
+    deleteById
 }

@@ -1,5 +1,5 @@
 const { isGuest } = require('../middlewares/guard');
-const { createCrypto, getAll, getById, editById } = require('../services/cryptoService');
+const { createCrypto, getAll, getById, editById, deleteById } = require('../services/cryptoService');
 const { parseError } = require('../util/parser');
 const cryptoController = require('express').Router()
 
@@ -57,6 +57,7 @@ cryptoController.post('/create', isGuest(), async (req, res) => {
 
 cryptoController.get('/details/:id', async (req, res) => {
     const crypto = await getById(req.params.id)
+    //isOwner is for edit and delete functionality
     crypto.isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
     crypto.bayer = false;
     res.render('details', {
@@ -87,7 +88,6 @@ cryptoController.post('/edit/:id', async (req, res) => {
     const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
     if (!isOwner) {
         res.redirect('/')
-
     }
 
     try {
@@ -100,7 +100,19 @@ cryptoController.post('/edit/:id', async (req, res) => {
             user: req.user
         })
     }
-})
+});
+
+
+cryptoController.get('/delete/:id', async (req, res) => {
+    const crypto = await getById(req.params.id)
+    const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
+
+    if (!isOwner) {
+        return res.redirect(`/auth/login/${req.params.id}`)
+    }
+    await deleteById(req.params.id)
+    res.redirect('/crypto/catalog')
+});
 
 
 

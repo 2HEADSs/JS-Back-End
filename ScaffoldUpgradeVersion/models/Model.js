@@ -18,7 +18,9 @@ const itemSchema = new Schema({
     payment: {
         type: String,
         required: true,
-        enum: ['crypto-wallet', 'credit-card', 'debit-card', 'paypal']
+        enum: ['crypto-wallet', 'credit-card', 'debit-card', 'paypal'],
+        // minValue: 1,
+        // maxValue: 5,
     },
     buyer: {
         type: [Types.ObjectId], ref: 'User', default: []

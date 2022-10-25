@@ -13,15 +13,15 @@ authController.get('/register', (req, res) => {
 authController.post('/register', async (req, res) => {
     //TODO check if username and email are requirde
     try {
-        if (req.body.email == '' || req.body.username == '' || req.body.password == '' || req.body.repass == '') {
+        if (req.body.email == '' || req.body.firstName == '' || req.body.lastName == ''
+            || req.body.password == '' || req.body.repass == '') {
             throw new Error('All fields are required!')
         }
         if (req.body.password != req.body.repass) {
             throw new Error('Passwords don\'t match!')
         }
-        const token = await register(req.body.email, req.body.username, req.body.password);
+        const token = await register(req.body.email, req.body.firstName, req.body.lastName, req.body.password);
 
-        //TODO check assignment to see if register create session
         res.cookie('token', token)
         res.redirect('/'); // TODO replace by assignment
     } catch (error) {
@@ -50,8 +50,8 @@ authController.get('/login', (req, res) => {
 
 authController.post('/login', async (req, res) => {
     try {
-    // TODO check if ony username or email or both
-        const token = await login(req.body.username, req.body.password);
+        // TODO check if ony username or email or both
+        const token = await login(req.body.email, req.body.password);
 
         //add token to response
         res.cookie('token', token);

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/site.css">
-    <title>{{title}}</title>
+    <title>Page Not Found</title>
 </head>
 
 <body>
@@ -20,12 +20,11 @@
             <nav class="main-nav nav-mid">
                 <ul>
                     <li>
-                        <a href="/catalog/browse">Browse</a>
+                        <a href="#">Browse</a>
                     </li>
-                    {{#if user}}
                     <!-- User actions -->
                     <li class="user">
-                        <a href="/catalog/create">Publish</a>
+                        <a href="#">Publish</a>
                     </li>
 
                     <!-- Bonus action -->
@@ -36,32 +35,45 @@
                     -->
 
                     <li class="user">
-                        <a href="/auth/logout">Logout</a>
+                        <a href="#">Logout</a>
                     </li>
-                    {{else}}
                     <!-- Guest actions -->
                     <li class="guest">
-                        <a href="/auth/register">Register</a>
+                        <a href="#">Register</a>
                     </li>
                     <li class="guest">
-                        <a href="/auth/login">Login</a>
+                        <a href="#">Login</a>
                     </li>
-                    {{/if}}
                 </ul>
             </nav>
         </header>
 
         <main>
-            {{#if errors}}
+
+            <!-- In case of error, display the following div-->
+            <!--
+
             <div class="error-box">
-                {{#each errors}}
-                <p>{{this}}</p>
-                {{/each}}
+                <p>Show each error in a separate paragraph</p>
             </div>
-            {{/if}}
 
+            -->
 
-            {{{body}}}
+            <!-- 404 Page -->
+            <section id="catalog-section" class="narrow align-center padded">
+
+                <h1 class="item">404 Not Found</h1>
+
+                <div>
+                    <p>
+                        The requested item doesn't exist
+                    </p>
+                    <div class="align-center">
+                        <a class="action" href="#">Back to catalog</a>
+                    </div>
+                </div>
+
+            </section>
 
         </main>
 

@@ -1,27 +1,23 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const user = require('../models/User');
 
 const JWT_SECRET = 'q982hdeoaus0ajaa'
 
-//TODO USERNAME, EMAIL, BOTH
-async function register(username, email, password) {
+async function register(username, password) {
     //check if username is already exist
 
     //collation to search case insensitive
-    //TODO check what to upload in token. find username or email
-    const existingUserName = await User.findOne({ username }).collation({ locale: 'en', strength: 2 });
-    const existingEmailName = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
-    if (existingUserName || existingEmailName) {
+    const existing = await User.findOne({ username }).collation({ locale: 'en', strength: 2 });
+    if (existing) {
         throw new Error('Username is already taken');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    //to check what to upload
 
     const user = await User.create({
         username,
-        email,
         hashedPassword
     });
 
@@ -48,11 +44,10 @@ async function login(username, password) {
 
 //method do sign(create) payload for cookie- will not be exports
 //TODO check what to add to payload
-function createSession({ _id, username, email }) {
+function createSession({ _id, username }) {
     const payload = {
         _id,
-        username,
-        email
+        username
         //TODO SEE IF EXPIRES TIME FOR TOKEN
     }
 

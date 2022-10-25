@@ -21,6 +21,7 @@ authController.post('/register', async (req, res) => {
         }
         const token = await register(req.body.username, req.body.password);
 
+        //TODO check assignment to see if register create session
         res.cookie('token', token)
         res.redirect('/'); // TODO replace by assignment
     } catch (error) {

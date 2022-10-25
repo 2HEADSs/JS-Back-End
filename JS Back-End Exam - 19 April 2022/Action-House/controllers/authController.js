@@ -32,7 +32,9 @@ authController.post('/register', async (req, res) => {
             title: 'Register page',
             errors,
             body: {
-                username: req.body.username
+                email: req.body.email,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
             }
         });
     }
@@ -63,7 +65,7 @@ authController.post('/login', async (req, res) => {
             title: 'Login Page',
             errors,
             body: {
-                username: req.body.username
+                email: req.body.email,
             }
         });
     }

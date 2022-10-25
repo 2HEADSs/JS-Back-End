@@ -10,7 +10,7 @@ const catalogController = require('express').Router()
 
 //TODO replace with real controller by assignment
 catalogController.get('/', (req, res) => {
-    res.render('home', {
+    res.render('catalog', {
         //title is not nessaccery I made the templete with {{title}}
         title: 'Auction House',
         user: req.user

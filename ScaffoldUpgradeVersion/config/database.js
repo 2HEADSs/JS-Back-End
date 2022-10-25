@@ -12,7 +12,7 @@ module.exports = async (app) => {
             useUnifiedTopology: true
         })
         //TODO change conected on
-        console.log('Database connected on sceletonWithKostadinow');
+        console.log('Database connected on ......DATABASE_NAME');
     } catch (error) {
         console.error(error.message);
         //procces.exit(1) - stop application

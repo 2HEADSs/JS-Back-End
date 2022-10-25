@@ -47,7 +47,7 @@ async function login(username, password) {
 
 //method do sign(create) payload for cookie- will not be exports
 //TODO check what to add to payload
-function createSession({ _id, username }) {
+function createSession({ _id, username, email }) {
     const payload = {
         _id,
         username

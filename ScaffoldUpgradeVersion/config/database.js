@@ -11,6 +11,7 @@ module.exports = async (app) => {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })
+        //TODO change conected on
         console.log('Database connected on sceletonWithKostadinow');
     } catch (error) {
         console.error(error.message);

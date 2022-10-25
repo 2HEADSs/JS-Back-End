@@ -1,10 +1,3 @@
-{{!-- <h1>HOME PAGE</h1>
-
-    {{!-- just for demonstration if have user we added to response--}}
-{{#if user}}
-<p>Logged as {{user.username}}</p>
-{{/if}} --}}
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/site.css">
-    <title>Auction House</title>
+    <title>Login</title>
 </head>
 
 <body>
@@ -66,31 +59,29 @@
 
             -->
 
-            <!-- Home Page -->
-            <section id="catalog-section">
+            <!-- Login Page -->
+            <section id="login-section" class="narrow">
 
-                <h1 class="item">Home</h1>
+                <h1 class="item">Login</h1>
 
-                <div class="item">
+                <div class="item padded align-center">
 
-                    <div class="layout left med">
-                        <div class="col">
-                            <img src="/static/assets/splash.jpg" class="img-med">
+                    <form class="aligned" method="" action="">
+
+                        <label>
+                            <span>Email</span>
+                            <input type="text" name="">
+                        </label>
+                        <label>
+                            <span>Password</span>
+                            <input type="password" name="">
+                        </label>
+
+                        <div class="align-center">
+                            <input class="action" type="submit" value="Sign In">
                         </div>
 
-                        <div class="content pad-med">
-                            <p>Welcome to the online Auction House.</p>
-                            <p>Buy and sell items in categories Real Estate, Vehicles, Furniture, Electronics and
-                                Others. Browse available items and place your bid. Create a new listing and collect the
-                                highest offer.
-                            </p>
-
-                            <div class="align-center">
-                                <a class="action" href="#">Browse Listings</a>
-                                <a class="action" href="#">Publish Auction</a>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
 
                 </div>
 

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const connectionsString = require('../connectionString')
-//TODO change database according to assignment
 const CONNECTION_STRING = connectionsString || 'mongodb://localhost:27017/examDataBase'
 
 
@@ -11,8 +10,7 @@ module.exports = async (app) => {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })
-        //TODO change conected on
-        console.log('Database connected on sceletonWithKostadinow');
+        console.log('Database connected on ACTION_HOUSE');
     } catch (error) {
         console.error(error.message);
         //procces.exit(1) - stop application

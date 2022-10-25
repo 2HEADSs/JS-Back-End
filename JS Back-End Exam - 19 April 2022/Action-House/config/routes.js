@@ -6,7 +6,6 @@ module.exports = (app) => {
     app.use('/auth', authController);
     
 
-    //TODO check if assingment have 404 page
     app.use('*', (req,res)=> {
         res.render('404')   
     })

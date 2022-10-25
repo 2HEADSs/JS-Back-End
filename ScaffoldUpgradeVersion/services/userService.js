@@ -5,11 +5,12 @@ const user = require('../models/User');
 
 const JWT_SECRET = 'q982hdeoaus0ajaa'
 
-async function register(username, password) {
+async function register(email, username, password) {
     //check if username is already exist
 
     //collation to search case insensitive
-    const existing = await User.findOne({ username }).collation({ locale: 'en', strength: 2 });
+    const existingEmail = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
+    const existingUsername = await User.findOne({ username }).collation({ locale: 'en', strength: 2 });
     if (existing) {
         throw new Error('Username is already taken');
     }
@@ -17,6 +18,7 @@ async function register(username, password) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
+        email,
         username,
         hashedPassword
     });
@@ -26,6 +28,7 @@ async function register(username, password) {
     return createSession(user)
 }
 
+//check if username or email
 async function login(username, password) {
     const user = await User.findOne({ username }).collation({ locale: 'en', strength: 2 });
     if (!user) {

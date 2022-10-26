@@ -1,5 +1,6 @@
 const { register, login } = require('../services/userService');
 const { parseError } = require('../util/parser');
+const { isEmail } = require('validator')
 
 const authController = require('express').Router()
 
@@ -13,6 +14,11 @@ authController.get('/register', (req, res) => {
 authController.post('/register', async (req, res) => {
     //TODO check if username and email are requirde
     try {
+        if (!isEmail(req.body.email)) {
+            throw new Error('Invalid email')
+        }
+
+
         if (req.body.email == '' || req.body.username == '' || req.body.password == '' || req.body.repass == '') {
             throw new Error('All fields are required!')
         }
@@ -50,7 +56,7 @@ authController.get('/login', (req, res) => {
 
 authController.post('/login', async (req, res) => {
     try {
-    // TODO check if ony username or email or both
+        // TODO check if ony username or email or both
         const token = await login(req.body.username, req.body.password);
 
         //add token to response

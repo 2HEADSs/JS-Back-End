@@ -91,19 +91,19 @@ catalogController.get('/edit/:id', async (req, res) => {
 
 catalogController.post('/edit/:id', async (req, res) => {
         //TODO guard for Owner
-        const crypto = await getById(req.params.id)
-        const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
+        const ad = await getById(req.params.id)
+        const isOwner = ad.owner._id.toString() == (req.user?._id)?.toString();
         if (!isOwner) {
-                res.redirect('/auth/login')
+                res.redirect('/')
         }
 
         try {
                 await editById(req.params.id, req.body)
-                res.redirect(`/crypto/details/${req.params.id}`)
+                res.redirect(`/catalog/details/${req.params.id}`)
         } catch (error) {
                 res.render('edit', {
                         error: parseError(error),
-                        crypto,
+                        ad,
                         user: req.user
                 })
         }
@@ -111,14 +111,14 @@ catalogController.post('/edit/:id', async (req, res) => {
 
 
 catalogController.get('/delete/:id', async (req, res) => {
-        const crypto = await getById(req.params.id)
-        const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
+        const ad = await getById(req.params.id)
+        const isOwner = ad.owner._id.toString() == (req.user?._id)?.toString();
 
         if (!isOwner) {
                 return res.redirect(`/auth/login/`)
         }
         await deleteById(req.params.id)
-        res.redirect('/crypto/catalog')
+        res.redirect('/catalog')
 });
 
 

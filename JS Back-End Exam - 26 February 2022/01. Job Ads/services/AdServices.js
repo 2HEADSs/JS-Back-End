@@ -19,12 +19,10 @@ async function deleteById(id) {
 
 async function editById(id, data) {
     const existing = await Ad.findById(id);
-    existing.name = data.name
-    existing.imageUrl = data.imageUrl
-    existing.price = data.price
-    existing.description = data.description
-    existing.payment = data.payment
-
+    existing.headline = data.headline
+    existing.location = data.location
+    existing.companyName = data.companyName
+    existing.companyDescription = data.companyDescription
     return existing.save()
 }
 

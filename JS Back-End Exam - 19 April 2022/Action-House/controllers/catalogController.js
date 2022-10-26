@@ -101,6 +101,7 @@ catalogController.post('/details/:id', async (req, res) => {
         await bitById(req.params.id, req.body.bid, req.user._id)
         res.redirect(`/item/details/${req.params.id}`)
     } catch (error) {
+        console.log(error);
         res.render('edit', {
             error: parseError(error),
             item,

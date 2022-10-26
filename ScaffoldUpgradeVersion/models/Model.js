@@ -19,6 +19,7 @@ const itemSchema = new Schema({
         type: String,
         required: true,
         enum: ['crypto-wallet', 'credit-card', 'debit-card', 'paypal'],
+        message: ['This payment is not allowed!'] 
         // minValue: 1,
         // maxValue: 5,
     },
@@ -31,7 +32,7 @@ const itemSchema = new Schema({
 });
 
 
-itemSchema.path('payment').required(true, 'This payment is not allowed!')
+// itemSchema.path('payment').required(true, 'This payment is not allowed!')
 
 
 const Item = model('Crypto', itemSchema);

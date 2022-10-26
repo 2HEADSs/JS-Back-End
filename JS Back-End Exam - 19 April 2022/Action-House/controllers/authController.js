@@ -79,7 +79,7 @@ authController.post('/login', async (req, res) => {
         const errors = parseError(error);
         res.render('login', {
             title: 'Login Page',
-            errors,
+            error: errors,
             body: {
                 email: req.body.email,
             }

@@ -26,9 +26,10 @@
                         Current price: $<strong>{{item.price}}</strong>
                     </div>
 
+                    {{#if item.bidder}}
                     <div>
                         <!-- If there is a bidder -->
-                        Bid by <strong>John Maclane</strong>
+                        Bid by <strong>{{item.bidderUser.firstName}} {{item.bidderUser.firstName}}</strong>
 
                         <!-- # Bonus: If there is a bidder -->
                         <!--
@@ -36,10 +37,11 @@
                                     <a class="action pad-med cta" href="#">Close Auction</a>
                                     
                                     # End of Bonus -->
-
+                        {{else}}
                         <!-- If there are no bids -->
                         No bids
                     </div>
+                    {{/if}}
                 </div>
 
             </div>

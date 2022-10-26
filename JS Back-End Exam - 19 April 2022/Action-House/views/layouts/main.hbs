@@ -27,13 +27,11 @@
                     <li class="user">
                         <a href="/item/create">Publish</a>
                     </li>
-
-                    <!-- Bonus action -->
-                    <!--
+                    {{#if item.bidderUser}}
                     <li class="user">
-                        <a href="#">Closed Auctions</a>
+                        <a href="/item/closed">Closed Auctions</a>
                     </li>
-                    -->
+                    {{/if}}
 
                     <li class="user">
                         <a href="/auth/logout">Logout</a>

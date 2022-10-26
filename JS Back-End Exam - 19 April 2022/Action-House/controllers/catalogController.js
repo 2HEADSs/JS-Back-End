@@ -1,7 +1,7 @@
 //TO CHANGE WITH REAL ASSINGMENT
 
 const { hasUser } = require('../middlewares/guard');
-const { createItem, getAll, getById, editById, deleteById, getOwner, bitById } = require('../services/itemServices');
+const { createItem, getAll, getById, editById, deleteById, getOwner, bitById, getBidderUser } = require('../services/itemServices');
 const { parseError } = require('../util/parser');
 
 
@@ -69,6 +69,9 @@ catalogController.get('/details/:id', async (req, res) => {
     const isOwner = item.owner.toString() == (req.user?._id)?.toString();
     const owner = await getOwner(item.owner);
     item.bidder = item.bidders[item.bidders.length - 1] == req.user._id
+    const lastBidder = item.bidders[item.bidders.length - 1]
+    const bidderUser = await getBidderUser(lastBidder);
+    item.bidderUser = bidderUser
 
     if (isOwner) {
         res.render('details-owner', {
@@ -88,6 +91,8 @@ catalogController.get('/details/:id', async (req, res) => {
     // item.bidder = item.bidder.map(x => x.toString()).includes(req.user?._id.toString())
 
 })
+
+
 
 catalogController.post('/details/:id', async (req, res) => {
 
@@ -160,4 +165,6 @@ catalogController.get('/delete/:id', async (req, res) => {
 
 })
 
+
+catalogController.get('/closed')
 module.exports = catalogController

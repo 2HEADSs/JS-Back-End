@@ -61,6 +61,11 @@ async function bitById(id, data, userId) {
 
     return existing.save()
 }
+
+async function getBidderUser(id) {
+    const user = await User.findById(id).lean()
+    return user
+}
 //TODO When ready to delete unnecessary 
 
 module.exports = {
@@ -73,6 +78,7 @@ module.exports = {
     searchRefDATA,
     addUserToItem,
     getOwner,
-    bitById
+    bitById,
+    getBidderUser
 }
 //TODO When ready to delete unnecessary 

@@ -60,6 +60,14 @@ authController.get('/login', (req, res) => {
 
 authController.post('/login', async (req, res) => {
     try {
+
+        if (req.body.email == '' || req.body.password == '') {
+            throw new Error('All fields are required!')
+        }
+        if (req.body.password.length < 5) {
+            throw new Error('Passwords miust be at least 5 characters!')
+        }
+
         // TODO check if ony username or email or both
         const token = await login(req.body.email, req.body.password);
 

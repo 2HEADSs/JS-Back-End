@@ -1,12 +1,13 @@
 
-const Item = require('../models/Model');
+const Item = require('../models/Item');
+const User = require('../models/User');
 
 
 async function getAll() {
     return Item.find({}).lean()
 }
 
-async function createCrypto(crypto) {
+async function createItem(crypto) {
     return Item.create(crypto)
 }
 
@@ -20,16 +21,16 @@ async function deleteById(id) {
 
 async function editById(id, data) {
     const existing = await Item.findById(id);
-    existing.name = data.name
+    existing.title = data.title
+    existing.category = data.category
+    existing.description = data.description
     existing.imageUrl = data.imageUrl
     existing.price = data.price
-    existing.description = data.description
-    existing.payment = data.payment
 
     return existing.save()
 }
 
-async function buyCrypto(cryptoId, userId) {
+async function buyItem(cryptoId, userId) {
     const existing = await Item.findById(cryptoId)
     existing.buyer.push(userId);
     return existing.save()
@@ -48,16 +49,30 @@ async function addUserToItem(bookId, userId) {
 }
 
 
+async function getOwner(userId) {
+    return User.findById(userId).lean()
+}
+
+
+async function bitById(id, data, userId) {
+    const existing = await Item.findById(id);
+    existing.price = Number(existing.price) + Number(data)
+    existing.bidders.push(userId)
+
+    return existing.save()
+}
 //TODO When ready to delete unnecessary 
 
 module.exports = {
     getAll,
-    createCrypto,
+    createItem,
     getById,
     editById,
     deleteById,
-    buyCrypto,
+    buyItem,
     searchRefDATA,
-    addUserToItem
+    addUserToItem,
+    getOwner,
+    bitById
 }
 //TODO When ready to delete unnecessary 

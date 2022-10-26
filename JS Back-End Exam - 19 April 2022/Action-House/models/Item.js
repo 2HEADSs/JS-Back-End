@@ -29,7 +29,7 @@ const itemSchema = new Schema({
 });
 
 
-itemSchema.path('payment').required(true, 'This payment is not allowed!')
+itemSchema.path('category').required(true, 'This category is not allowed!')
 
 
 const Item = model('Item', itemSchema);

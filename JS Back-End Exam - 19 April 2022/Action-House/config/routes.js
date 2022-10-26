@@ -1,13 +1,11 @@
 const authController = require("../controllers/authController");
 const catalogController = require("../controllers/catalogController");
-const homeController = require("../controllers/homeController")
+const homeController = require("../controllers/homeController");
 
 module.exports = (app) => {
     app.use('/', homeController);
     app.use('/auth', authController);
-    app.use('/catalog',catalogController)
-    
-
+    app.use('/item',catalogController);
     app.use('*', (req,res)=> {
         res.render('404')   
     })

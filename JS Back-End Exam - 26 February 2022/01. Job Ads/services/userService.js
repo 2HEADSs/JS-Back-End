@@ -5,12 +5,11 @@ const user = require('../models/User');
 
 const JWT_SECRET = 'q982hdeoaus0ajaa'
 
-async function register(email, username, password) {
+async function register(email, description, password) {
     //check if username is already exist
 
     //collation to search case insensitive
-    const existingEmail = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
-    const existingUsername = await User.findOne({ username }).collation({ locale: 'en', strength: 2 });
+    const existing = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
     if (existing) {
         throw new Error('Username is already taken');
     }
@@ -19,8 +18,9 @@ async function register(email, username, password) {
 
     const user = await User.create({
         email,
-        username,
-        hashedPassword
+        description,
+        hashedPassword,
+
     });
 
     //TODO see assignment if registration creates user session or must render login    
@@ -29,8 +29,8 @@ async function register(email, username, password) {
 }
 
 //check if username or email
-async function login(username, password) {
-    const user = await User.findOne({ username }).collation({ locale: 'en', strength: 2 });
+async function login(email, password) {
+    const user = await User.findOne({ username: email }).collation({ locale: 'en', strength: 2 });
     if (!user) {
         throw new Error('Incorrect username or password!');
     }
@@ -47,10 +47,10 @@ async function login(username, password) {
 
 //method do sign(create) payload for cookie- will not be exports
 //TODO check what to add to payload
-function createSession({ _id, username, email }) {
+function createSession({ _id, email }) {
     const payload = {
         _id,
-        username
+        email
         //TODO SEE IF EXPIRES TIME FOR TOKEN
     }
 

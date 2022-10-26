@@ -1,25 +1,25 @@
 
-const Item = require('../models/Model');
+const Ad = require('../models/Ad');
 
 
 async function getAll() {
-    return Item.find({}).lean()
+    return Ad.find({}).lean()
 }
 
-async function createCrypto(crypto) {
-    return Item.create(crypto)
+async function createAd(crypto) {
+    return Ad.create(crypto)
 }
 
 async function getById(id) {
-    return Item.findById(id).lean()
+    return Ad.findById(id).lean()
 }
 
 async function deleteById(id) {
-    return Item.findByIdAndDelete(id)
+    return Ad.findByIdAndDelete(id)
 }
 
 async function editById(id, data) {
-    const existing = await Item.findById(id);
+    const existing = await Ad.findById(id);
     existing.name = data.name
     existing.imageUrl = data.imageUrl
     existing.price = data.price
@@ -30,7 +30,7 @@ async function editById(id, data) {
 }
 
 async function buyCrypto(cryptoId, userId) {
-    const existing = await Item.findById(cryptoId)
+    const existing = await Ad.findById(cryptoId)
     existing.buyer.push(userId);
     return existing.save()
 }
@@ -52,7 +52,7 @@ async function addUserToItem(bookId, userId) {
 
 module.exports = {
     getAll,
-    createCrypto,
+    createAd,
     getById,
     editById,
     deleteById,

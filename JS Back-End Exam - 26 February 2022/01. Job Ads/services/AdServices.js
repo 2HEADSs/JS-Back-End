@@ -1,4 +1,3 @@
-
 const Ad = require('../models/Ad');
 
 
@@ -11,7 +10,7 @@ async function createAd(crypto) {
 }
 
 async function getById(id) {
-    return Ad.findById(id).lean()
+    return Ad.findById(id).populate('owner').lean()
 }
 
 async function deleteById(id) {

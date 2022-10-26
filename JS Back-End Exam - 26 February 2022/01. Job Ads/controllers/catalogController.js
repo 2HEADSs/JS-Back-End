@@ -5,7 +5,7 @@
 // if (Object.values(req.body).some(x => !x)) {
 //     throw new Error('All fields are required!')
 // }const { isGuest } = require('../middlewares/guard');
-const { getAll, createCrypto, getById, editById, deleteById, buyCrypto, searchRefDATA, addUserToItem, createAd } = require('../services/AdServices');
+const { getAll,getById, editById, deleteById, buyCrypto, searchRefDATA, addUserToItem, createAd } = require('../services/AdServices');
 const { parseError } = require('../util/parser');
 const catalogController = require('express').Router()
 
@@ -18,7 +18,6 @@ catalogController.get('/', async (req, res) => {
         let ads = []
         try {
                 ads = await getAll();
-                console.log(ads);
                 res.render('catalog', {
                         title: 'All-Ads Page',
                         user: req.user,
@@ -64,30 +63,29 @@ catalogController.post('/create', async (req, res) => {
 
 
 catalogController.get('/details/:id', async (req, res) => {
-        const crypto = await getById(req.params.id)
+        const ad = await getById(req.params.id)
         //isOwner is for edit and delete functionality
-        crypto.isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
-
-        crypto.bayer = crypto.buyer.map(x => x.toString()).includes(req.user?._id.toString())
+        ad.isOwner = ad.owner._id.toString() == (req.user?._id)?.toString();
+        ad.applied = ad.applied.map(x => x.toString()).includes(req.user?._id.toString())
         res.render('details', {
                 title: 'Details Page',
                 user: req.user,
-                crypto,
+                ad
         })
 });
 
 catalogController.get('/edit/:id', async (req, res) => {
         //TODO guard for Owner
-        const crypto = await getById(req.params.id)
-        const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
+        const ad = await getById(req.params.id)
+        const isOwner = ad.owner._id.toString() == (req.user?._id)?.toString();
         if (!isOwner) {
-                res.redirect('/auth/login')
+                res.redirect('/')
         }
 
         res.render('edit', {
                 title: 'Edit Page',
                 user: req.user,
-                crypto,
+                ad,
         })
 })
 

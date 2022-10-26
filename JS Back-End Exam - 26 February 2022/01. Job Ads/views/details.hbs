@@ -1,0 +1,55 @@
+            <section id="details-page">
+                <article class="details-gage-title">
+                    <h1>Details Page</h1>
+                </article>
+                <article class="details-page-card">
+
+                    <article class="details-page-card-image">
+                        <!-- Do not forget to change the path to the image -->
+                        <img src="/static/img/man.png" alt="details-image">
+                    </article>
+
+                    <article class="details-page-card-content">
+                        <p>Author: {{ad.owner.email}}</p>
+                        <h2>Headline: {{ad.headline}}</h2>
+                        <h3>Company name: {{ad.companyName}}</h3>
+                        <h4>Company description: {{ad.companyDescription}}</h4>
+                        <h5>Location: {{ad.location}}</h5>
+
+                        <article class="details-page-card-buttons">
+                            {{#if user}}
+                                {{#if ad.isOwner}}
+                                <!--only for registered users and author of the ad-->
+                                <a href="/catalog/edit/{{ad._id}}" class="btn-edit">Edit</a>
+                                <a href="/catalog/delete/{{ad._id}}" class="btn-delete">Delete</a>
+                                {{else}}
+                            <!--logged in user who did not apply for current ad-->
+                            <a href="#" class="btn-apply">Apply now!</a>
+                            <p class="applied-people">Hurry up, 1 people have already applied.</p>
+
+                            <!--logged in user who has already applied for current ad-->
+                            <p class="already-applied">You have already applied!</p>
+                                {{/if}}
+                            {{/if}}
+                        </article>
+                    </article>
+
+                </article>
+            </section>
+
+            <!--This section should only be visible to the author of the current ad-->
+            <!--
+            <section id="info-about-candidates">
+                <h2>Candidates for this ad:</h2>
+                <!\If there are people who have applied, show each of them in the following format--\>
+                <article class="info-about-candidates-card">
+                    <h2>Email: petar@abv.bg</h2>
+                    <h3>Description of the candidate's skills: Experience with HTML 5, CSS 3, Node.js</h3>
+                </article>
+
+                <article class="info-about-candidates-card">
+                    <h2>Email: ivan@abv.bg</h2>
+                    <h3>Description of the candidate's skills: Experience with Node.js</h3>
+                </article>
+                <!\If not, you don't need to visualize anything further-\->
+            </section>-->

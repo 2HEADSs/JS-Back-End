@@ -1,4 +1,4 @@
-const { lock } = require('../controllers/searchController');
+
 const Crypto = require('../models/Crypto');
 
 

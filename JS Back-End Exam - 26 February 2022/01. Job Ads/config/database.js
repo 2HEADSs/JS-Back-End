@@ -10,7 +10,7 @@ module.exports = async (app) => {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })
-        console.log('Database connected on ......JOB_ADS');
+        console.log('Database connected on JOB_ADS');
     } catch (error) {
         console.error(error.message);
         //procces.exit(1) - stop application

@@ -6,6 +6,7 @@
 //     throw new Error('All fields are required!')
 // }const { isGuest } = require('../middlewares/guard');
 const { getAll, getById, editById, deleteById, applyForJob, searchRefDATA, addUserToItem, createAd, getOneWithCandidates } = require('../services/AdServices');
+const { updateUser } = require('../services/userService');
 const { parseError } = require('../util/parser');
 const catalogController = require('express').Router()
 
@@ -50,7 +51,8 @@ catalogController.post('/create', async (req, res) => {
                 if (Object.values(req.body).some(x => !x)) {
                         throw new Error('All fields are required!')
                 }
-                await createAd(ad)
+                const createdAd = await createAd(ad)
+                await updateUser(req.user._id, createdAd._id)
                 res.redirect('/catalog')
         } catch (error) {
                 res.render('create', {
@@ -70,11 +72,11 @@ catalogController.get('/details/:id', async (req, res) => {
         ad.isOwner = ad.owner._id.toString() == (req.user?._id)?.toString();
         ad.hasApplied = ad.applied.map(x => x.toString()).includes(req.user?._id.toString())
         const countCandidates = ad.applied.length > 0 ? true : false;
+        ad.countApplied = ad.applied.length
 
         if (countCandidates) {
                 const adPopulateWithCandidates = await getOneWithCandidates(req.params.id)
                 adPopulateWithCandidates.applied.map(x => candidates.push(x))
-                console.log(candidates);
         };
         res.render('details', {
                 title: 'Details Page',

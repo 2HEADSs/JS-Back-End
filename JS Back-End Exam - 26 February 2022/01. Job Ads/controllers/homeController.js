@@ -7,7 +7,6 @@ homeController.get('/', async (req, res) => {
     const allAds = await getAll()
     const firstThree = allAds.slice(0, 3);
     let hasApplied = false
-    console.log(allAds.length);
     if (allAds.length > 0) {
         hasApplied = true;
     }

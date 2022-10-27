@@ -7,7 +7,7 @@ const userSchema = new Schema({
         type: String, required: true, maxlength: [40, 'Description must be maximum 40 characters long!']
     },
     personalAds: {
-        type: [Types.ObjectId], ref: 'Ads', default: []
+        type: [Types.ObjectId], ref: 'Adds', default: []
     },
     hashedPassword: { type: String, required: true }
 });

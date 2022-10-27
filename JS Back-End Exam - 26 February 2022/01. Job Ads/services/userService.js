@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Ad = require('../models/Ad');
 const User = require('../models/User');
 
 const JWT_SECRET = 'q982hdeoaus0ajaa'
@@ -8,7 +9,7 @@ async function register(email, description, password) {
     //check if username is already exist
     console.log(email, description, password);
     //collation to search case insensitive
-    const existing = await User.findOne({email}).collation({ locale: 'en', strength: 2 });
+    const existing = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
     console.log(existing);
     if (existing) {
         throw new Error('Username is already taken');
@@ -63,8 +64,15 @@ function verifyToken(token) {
     return jwt.verify(token, JWT_SECRET);
 }
 
+async function updateUser(id, data) {
+    const existing = await User.findById(id);
+    existing.personalAds.push(data)
+    return existing.save()
+}
+
 module.exports = {
     register,
     login,
-    verifyToken
+    verifyToken,
+    updateUser
 }

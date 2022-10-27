@@ -5,7 +5,7 @@
 // if (Object.values(req.body).some(x => !x)) {
 //     throw new Error('All fields are required!')
 // }const { isGuest } = require('../middlewares/guard');
-const { getAll, getById, editById, deleteById, applyForJob, searchRefDATA, addUserToItem, createAd } = require('../services/AdServices');
+const { getAll, getById, editById, deleteById, applyForJob, searchRefDATA, addUserToItem, createAd, getOneWithCandidates } = require('../services/AdServices');
 const { parseError } = require('../util/parser');
 const catalogController = require('express').Router()
 
@@ -64,14 +64,24 @@ catalogController.post('/create', async (req, res) => {
 
 catalogController.get('/details/:id', async (req, res) => {
         const ad = await getById(req.params.id)
+        const candidates = []
+
         //isOwner is for edit and delete functionality
         ad.isOwner = ad.owner._id.toString() == (req.user?._id)?.toString();
         ad.hasApplied = ad.applied.map(x => x.toString()).includes(req.user?._id.toString())
-        ad.countApplied = ad.applied.length
+        const countCandidates = ad.applied.length > 0 ? true : false;
+
+        if (countCandidates) {
+                const adPopulateWithCandidates = await getOneWithCandidates(req.params.id)
+                adPopulateWithCandidates.applied.map(x => candidates.push(x))
+                console.log(candidates);
+        };
         res.render('details', {
                 title: 'Details Page',
                 user: req.user,
-                ad
+                ad,
+                candidates,
+                countCandidates
         })
 });
 
@@ -129,9 +139,9 @@ catalogController.get('/apply/:id', async (req, res) => {
                 && ad.applied.map(x => x.toString()).includes((req.user?._id)?.toString()) == false) {
                 try {
                         await applyForJob(req.params.id, req.user._id);
-                        res.redirect(`/details/${req.params.id}`)
+                        res.redirect(`/catalog/details/${req.params.id}`)
                 } catch (error) {
-                        res.render(`catalog/details/${req.params.id}`, {
+                        res.render(`/catalog/details/${req.params.id}`, {
                                 error: parseError(error),
                                 ad,
                                 user: req.user

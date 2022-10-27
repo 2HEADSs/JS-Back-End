@@ -44,6 +44,10 @@ async function addUserToItem(bookId, userId) {
     return existing.save()
 }
 
+async function getOneWithCandidates(adId) {
+    return Ad.findById(adId).populate('applied').lean()
+
+}
 
 //TODO When ready to delete unnecessary 
 
@@ -55,6 +59,7 @@ module.exports = {
     deleteById,
     applyForJob,
     searchRefDATA,
-    addUserToItem
+    addUserToItem,
+    getOneWithCandidates,
 }
 //TODO When ready to delete unnecessary 

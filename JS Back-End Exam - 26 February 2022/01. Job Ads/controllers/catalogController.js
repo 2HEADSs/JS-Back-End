@@ -5,7 +5,7 @@
 // if (Object.values(req.body).some(x => !x)) {
 //     throw new Error('All fields are required!')
 // }const { isGuest } = require('../middlewares/guard');
-const { getAll,getById, editById, deleteById, buyCrypto, searchRefDATA, addUserToItem, createAd } = require('../services/AdServices');
+const { getAll, getById, editById, deleteById, applyForJob, searchRefDATA, addUserToItem, createAd } = require('../services/AdServices');
 const { parseError } = require('../util/parser');
 const catalogController = require('express').Router()
 
@@ -66,7 +66,8 @@ catalogController.get('/details/:id', async (req, res) => {
         const ad = await getById(req.params.id)
         //isOwner is for edit and delete functionality
         ad.isOwner = ad.owner._id.toString() == (req.user?._id)?.toString();
-        ad.applied = ad.applied.map(x => x.toString()).includes(req.user?._id.toString())
+        ad.hasApplied = ad.applied.map(x => x.toString()).includes(req.user?._id.toString())
+        ad.countApplied = ad.applied.length
         res.render('details', {
                 title: 'Details Page',
                 user: req.user,
@@ -122,17 +123,17 @@ catalogController.get('/delete/:id', async (req, res) => {
 });
 
 
-catalogController.get('/buy/:id', async (req, res) => {
-        const crypto = await getById(req.params.id)
-        if (crypto.owner.toString() != (req.user?._id)?.toString()
-                && crypto.buyer.map(x => x.toString()).includes((req.user?._id)?.toString()) == false) {
+catalogController.get('/apply/:id', async (req, res) => {
+        const ad = await getById(req.params.id)
+        if (ad.owner.toString() != (req.user?._id)?.toString()
+                && ad.applied.map(x => x.toString()).includes((req.user?._id)?.toString()) == false) {
                 try {
-                        await buyCrypto(req.params.id, req.user._id);
-                        res.redirect(`/crypto/details/${req.params.id}`)
+                        await applyForJob(req.params.id, req.user._id);
+                        res.redirect(`/details/${req.params.id}`)
                 } catch (error) {
-                        res.render('catalog', {
+                        res.render(`catalog/details/${req.params.id}`, {
                                 error: parseError(error),
-                                crypto,
+                                ad,
                                 user: req.user
                         })
                 }

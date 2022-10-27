@@ -1,15 +1,15 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const user = require('../models/User');
 
 const JWT_SECRET = 'q982hdeoaus0ajaa'
 
 async function register(email, description, password) {
     //check if username is already exist
-
+    console.log(email, description, password);
     //collation to search case insensitive
-    const existing = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
+    const existing = await User.findOne({email}).collation({ locale: 'en', strength: 2 });
+    console.log(existing);
     if (existing) {
         throw new Error('Username is already taken');
     }
@@ -20,9 +20,8 @@ async function register(email, description, password) {
         email,
         description,
         hashedPassword,
-
     });
-
+    // console.log(user);
     //TODO see assignment if registration creates user session or must render login    
 
     return createSession(user)
@@ -30,7 +29,7 @@ async function register(email, description, password) {
 
 //check if username or email
 async function login(email, password) {
-    const user = await User.findOne({ username: email }).collation({ locale: 'en', strength: 2 });
+    const user = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
     if (!user) {
         throw new Error('Incorrect username or password!');
     }

@@ -33,6 +33,7 @@ authController.post('/register', async (req, res) => {
         res.redirect('/'); // TODO replace by assignment
     } catch (error) {
         const errors = parseError(error)
+        console.log(error);
         //TODO add error display to actual template from assignment
         res.render('register', {
             title: 'Register page',

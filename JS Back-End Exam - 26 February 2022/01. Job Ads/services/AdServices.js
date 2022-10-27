@@ -26,9 +26,9 @@ async function editById(id, data) {
     return existing.save()
 }
 
-async function buyCrypto(cryptoId, userId) {
-    const existing = await Ad.findById(cryptoId)
-    existing.buyer.push(userId);
+async function applyForJob(adId, userId) {
+    const existing = await Ad.findById(adId)
+    existing.applied.push(userId);
     return existing.save()
 }
 
@@ -53,7 +53,7 @@ module.exports = {
     getById,
     editById,
     deleteById,
-    buyCrypto,
+    applyForJob,
     searchRefDATA,
     addUserToItem
 }

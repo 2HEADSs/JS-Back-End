@@ -14,12 +14,12 @@ const userSchema = new Schema({
 
 
 //index is not required; strength:2 - to be case insensitive 
-// userSchema.index({ username: 1 }, {
-//     collation: {
-//         locale: 'en',
-//         strength: 2
-//     }
-// })
+userSchema.index({ email: 1 }, {
+    collation: {
+        locale: 'en',
+        strength: 2
+    }
+})
 
 const User = model('User', userSchema);
 

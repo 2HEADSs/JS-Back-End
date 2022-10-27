@@ -5,6 +5,7 @@
 // if (Object.values(req.body).some(x => !x)) {
 //     throw new Error('All fields are required!')
 // }const { isGuest } = require('../middlewares/guard');
+const { hasUser } = require('../middlewares/guard');
 const { getAll, getById, editById, deleteById, applyForJob, searchRefDATA, addUserToItem, createAd, getOneWithCandidates } = require('../services/AdServices');
 const { updateUser } = require('../services/userService');
 const { parseError } = require('../util/parser');
@@ -32,14 +33,14 @@ catalogController.get('/', async (req, res) => {
         }
 })
 
-catalogController.get('/create', (req, res) => {
+catalogController.get('/create', hasUser(), (req, res) => {
         res.render('create', {
                 title: 'Create Page',
                 user: req.user
         })
 })
 
-catalogController.post('/create', async (req, res) => {
+catalogController.post('/create', hasUser(), async (req, res) => {
         const ad = {
                 headline: req.body.headline,
                 location: req.body.location,
@@ -64,7 +65,7 @@ catalogController.post('/create', async (req, res) => {
 });
 
 
-catalogController.get('/details/:id', async (req, res) => {
+catalogController.get('/details/:id', hasUser(), async (req, res) => {
         const ad = await getById(req.params.id)
         const candidates = []
 
@@ -87,7 +88,7 @@ catalogController.get('/details/:id', async (req, res) => {
         })
 });
 
-catalogController.get('/edit/:id', async (req, res) => {
+catalogController.get('/edit/:id', hasUser(), async (req, res) => {
         //TODO guard for Owner
         const ad = await getById(req.params.id)
         const isOwner = ad.owner._id.toString() == (req.user?._id)?.toString();
@@ -102,7 +103,7 @@ catalogController.get('/edit/:id', async (req, res) => {
         })
 })
 
-catalogController.post('/edit/:id', async (req, res) => {
+catalogController.post('/edit/:id', hasUser(), async (req, res) => {
         //TODO guard for Owner
         const ad = await getById(req.params.id)
         const isOwner = ad.owner._id.toString() == (req.user?._id)?.toString();
@@ -123,7 +124,7 @@ catalogController.post('/edit/:id', async (req, res) => {
 });
 
 
-catalogController.get('/delete/:id', async (req, res) => {
+catalogController.get('/delete/:id', hasUser(), async (req, res) => {
         const ad = await getById(req.params.id)
         const isOwner = ad.owner._id.toString() == (req.user?._id)?.toString();
 
@@ -135,7 +136,7 @@ catalogController.get('/delete/:id', async (req, res) => {
 });
 
 
-catalogController.get('/apply/:id', async (req, res) => {
+catalogController.get('/apply/:id', hasUser(), async (req, res) => {
         const ad = await getById(req.params.id)
         if (ad.owner.toString() != (req.user?._id)?.toString()
                 && ad.applied.map(x => x.toString()).includes((req.user?._id)?.toString()) == false) {
@@ -150,6 +151,8 @@ catalogController.get('/apply/:id', async (req, res) => {
                         })
                 }
 
+        } else {
+                res.redirect('/')
         }
 });
 

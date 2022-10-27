@@ -1,9 +1,8 @@
+const { hasUser } = require("../middlewares/guard");
 const getBySearch = require("../services/searchServices");
-const getAllBySearch = require("../services/searchServices");
 const searchController = require('express').Router()
 
-searchController.get('/', async (req, res) => {
-    // cryptos = await getAllBySearch(req.query.search, req.query.payment)
+searchController.get('/', hasUser(), async (req, res) => {
 
     res.render('search', {
         title: 'Search',
@@ -11,7 +10,7 @@ searchController.get('/', async (req, res) => {
     })
 })
 
-searchController.post('/', async (req, res) => {
+searchController.post('/', hasUser(), async (req, res) => {
     if (req.body.search == '') {
         res.redirect('/search')
     }

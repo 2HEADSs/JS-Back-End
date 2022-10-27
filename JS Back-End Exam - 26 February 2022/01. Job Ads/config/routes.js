@@ -9,8 +9,6 @@ module.exports = (app) => {
     app.use('/catalog', catalogController)
     app.use('/search', searchController)
     
-
-
     app.use('*', (req,res)=> {
         res.render('404')   
     })

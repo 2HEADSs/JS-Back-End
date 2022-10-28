@@ -31,14 +31,14 @@ cryptoController.get('/catalog', async (req, res) => {
         }
 })
 
-cryptoController.get('/create', isGuest(), (req, res) => {
+cryptoController.get('/create', (req, res) => {
         res.render('create', {
                 title: 'Create offer',
                 user: req.user
         })
 })
 
-cryptoController.post('/create', isGuest(), async (req, res) => {
+cryptoController.post('/create', async (req, res) => {
         const crypto = {
                 name: req.body.name,
                 price: req.body.price,
@@ -122,7 +122,7 @@ cryptoController.get('/delete/:id', async (req, res) => {
 });
 
 
-cryptoController.get('/buy/:id', isGuest(), async (req, res) => {
+cryptoController.get('/buy/:id', async (req, res) => {
         const crypto = await getById(req.params.id)
         if (crypto.owner.toString() != (req.user?._id)?.toString()
                 && crypto.buyer.map(x => x.toString()).includes((req.user?._id)?.toString()) == false) {

@@ -1,25 +1,25 @@
 
-const Item = require('../models/Model');
+const Trip = require('../models/Model');
 
 
 async function getAll() {
-    return Item.find({}).lean()
+    return Trip.find({}).lean()
 }
 
 async function createCrypto(crypto) {
-    return Item.create(crypto)
+    return Trip.create(crypto)
 }
 
 async function getById(id) {
-    return Item.findById(id).lean()
+    return Trip.findById(id).lean()
 }
 
 async function deleteById(id) {
-    return Item.findByIdAndDelete(id)
+    return Trip.findByIdAndDelete(id)
 }
 
 async function editById(id, data) {
-    const existing = await Item.findById(id);
+    const existing = await Trip.findById(id);
     existing.name = data.name
     existing.imageUrl = data.imageUrl
     existing.price = data.price
@@ -30,7 +30,7 @@ async function editById(id, data) {
 }
 
 async function buyCrypto(cryptoId, userId) {
-    const existing = await Item.findById(cryptoId)
+    const existing = await Trip.findById(cryptoId)
     existing.buyer.push(userId);
     return existing.save()
 }
@@ -40,7 +40,7 @@ async function searchRefDATA(userId) {
     return Book.find({ wishingList: { $elemMatch: { $eq: userId } } }).lean()
 }
 
-async function addUserToItem(bookId, userId) {
+async function addUserToTrip(bookId, userId) {
     const existing = await Book.findById(bookId)
     existing.wishingList.push(userId)
 
@@ -58,6 +58,6 @@ module.exports = {
     deleteById,
     buyCrypto,
     searchRefDATA,
-    addUserToItem
+    addUserToItem: addUserToTrip
 }
 //TODO When ready to delete unnecessary 

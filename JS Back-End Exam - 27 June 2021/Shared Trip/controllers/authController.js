@@ -1,17 +1,18 @@
 const { register, login } = require('../services/userService');
 const { parseError } = require('../util/parser');
-const { isEmail } = require('validator')
+const { isEmail } = require('validator');
+const { isGuest, hasUser } = require('../middlewares/guard');
 
 const authController = require('express').Router()
 
-authController.get('/register', (req, res) => {
+authController.get('/register',isGuest(), (req, res) => {
     // TODO replace with actual view
     res.render('register', {
         title: 'Register page'
     });
 });
 
-authController.post('/register', async (req, res) => {
+authController.post('/register',isGuest(), async (req, res) => {
 
     try {
         if (!isEmail(req.body.email)) {
@@ -41,15 +42,13 @@ authController.post('/register', async (req, res) => {
         res.render('register', {
             title: 'Register page',
             errors,
-            body: {
-                email: req.body.email
-            }
+            body: req.body.email
         });
     }
 
 });
 
-authController.get('/login', (req, res) => {
+authController.get('/login',isGuest(), (req, res) => {
     // TODO replace with actual view
 
     res.render('login', {
@@ -58,7 +57,7 @@ authController.get('/login', (req, res) => {
 });
 
 
-authController.post('/login', async (req, res) => {
+authController.post('/login',isGuest(), async (req, res) => {
     try {
         // TODO check if ony username or email or both
         const token = await login(req.body.email, req.body.password);
@@ -72,15 +71,13 @@ authController.post('/login', async (req, res) => {
         res.render('login', {
             title: 'Login Page',
             errors,
-            body: {
-                username: req.body.username
-            }
+            body: req.body.email
         });
     }
 });
 
 
-authController.get('/logout', (req, res) => {
+authController.get('/logout',hasUser(), (req, res) => {
     res.clearCookie('token');
     res.redirect('/')
 })

@@ -68,9 +68,13 @@ async function updateUser(id, data) {
     return existing.save()
 }
 
+async function getUserWithTrips(id) {
+    return await User.findById(id).populate('tripHistory').lean()
+}
 module.exports = {
     register,
     login,
     verifyToken,
-    updateUser
+    updateUser,
+    getUserWithTrips
 }

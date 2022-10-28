@@ -10,6 +10,9 @@ async function createTrip(trip) {
     return Trip.create(trip)
 }
 
+async function getByIdWithOwnerAndBuddies(id) {
+    return Trip.findById(id).populate('owner').populate('buddies').lean()
+}
 async function getById(id) {
     return Trip.findById(id).lean()
 }
@@ -20,18 +23,29 @@ async function deleteById(id) {
 
 async function editById(id, data) {
     const existing = await Trip.findById(id);
-    existing.name = data.name
-    existing.imageUrl = data.imageUrl
-    existing.price = data.price
-    existing.description = data.description
-    existing.payment = data.payment
+    existing.startPoint = data.startPoint,
+        existing.endPoint = data.endPoint,
+        existing.date = data.date,
+        existing.time = data.time,
+        existing.carImage = data.carImage,
+        existing.carBrand = data.carBrand,
+        existing.seats = data.seats,
+        existing.price = data.price,
+        existing.description = data.description
+
 
     return existing.save()
 }
+async function editSeats(id) {
+    const existing = await Trip.findById(id);
+    existing.seats--
+    return existing.save()
 
-async function buyCrypto(cryptoId, userId) {
-    const existing = await Trip.findById(cryptoId)
-    existing.buyer.push(userId);
+}
+
+async function joinTrip(tripId, userId) {
+    const existing = await Trip.findById(tripId)
+    existing.buddies.push(userId);
     return existing.save()
 }
 
@@ -40,12 +54,12 @@ async function searchRefDATA(userId) {
     return Book.find({ wishingList: { $elemMatch: { $eq: userId } } }).lean()
 }
 
-async function addUserToTrip(bookId, userId) {
-    const existing = await Book.findById(bookId)
-    existing.wishingList.push(userId)
+// async function addUserToTrip(bookId, userId) {
+//     const existing = await Book.findById(bookId)
+//     existing.wishingList.push(userId)
 
-    return existing.save()
-}
+//     return existing.save()
+// }
 
 
 //TODO When ready to delete unnecessary 
@@ -56,8 +70,9 @@ module.exports = {
     getById,
     editById,
     deleteById,
-    buyCrypto,
+    joinTrip,
     searchRefDATA,
-    addUserToItem: addUserToTrip
+    editSeats,
+    getByIdWithOwnerAndBuddies
 }
 //TODO When ready to delete unnecessary 

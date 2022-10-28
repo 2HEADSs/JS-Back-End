@@ -27,8 +27,8 @@ async function register(email, password, gender) {
 }
 
 //check if username or email
-async function login(username, password) {
-    const user = await User.findOne({ username }).collation({ locale: 'en', strength: 2 });
+async function login(email, password) {
+    const user = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
     if (!user) {
         throw new Error('Incorrect username or password!');
     }

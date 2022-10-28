@@ -3,28 +3,57 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title>
+    <!-- Do not forget to change the path to the css file -->
+    <title>Home Page</title>
+    <link href="/static/css/style.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
-    <a href="/auth/login">Login</a>
-    <a href="/auth/register">Register</a>
-    <a href="/auth/logout">Logout</a>
 
-    {{#if errors}}
-    {{!-- {{#if error}}?? --}}
-    <div>
-        {{#each errors}}
-        <p>{{this}}</p>
-        {{/each}}
+    <div id="box">
+
+        <!-- In case of error, you should display div with class "errorContainer" -->
+        <!-- You can choose to display the first error or all of them (error message/s in your opinion) -->
+
+
+        {{#if errors}}
+        <div>
+            {{#each errors}}
+
+            <div class="errorContainer">
+                <p>{{this}}</p>
+
+            </div>
+            {{/each}}
+        </div>
+        {{/if}}
+
+        <nav>
+            <a href="/">Home</a>
+            <ul>
+                <!-- Guest users and Logged users -->
+                <li><a href="/catalog">Housing for rent</a></li>
+                <!-- Guest users -->
+                <li><a href="/auth/login">Login</a></li>
+                <li><a href="/auth/register">Register</a></li>
+                <!-- Logged users -->
+                <li><a href="/catalog/create">Create offer</a></li>
+                <li><a href="/search">Search</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            {{{body}}}
+        </main>
+
+
+
+
+        <footer>
+            © 2021
+        </footer>
     </div>
-    {{/if}}
-
-    {{!-- if we use {{}} hendlebars will escape html wich we send to the template--}}
-    {{{body}}}
-
 
 </body>
 

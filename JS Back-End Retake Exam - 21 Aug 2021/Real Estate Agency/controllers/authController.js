@@ -12,7 +12,6 @@ authController.get('/register', (req, res) => {
 });
 
 authController.post('/register', async (req, res) => {
-    //TODO check if username and email are requirde
     try {
         if (!isEmail(req.body.email)) {
             throw new Error('Invalid email')
@@ -27,7 +26,6 @@ authController.post('/register', async (req, res) => {
         }
         const token = await register(req.body.email, req.body.username, req.body.password);
 
-        //TODO check assignment to see if register create session
         res.cookie('token', token)
         res.redirect('/'); // TODO replace by assignment
     } catch (error) {

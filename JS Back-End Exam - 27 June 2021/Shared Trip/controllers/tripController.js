@@ -80,7 +80,7 @@ tripController.get('/details/:id', async (req, res) => {
         res.render('trip-details', {
                 title: 'Details Trip',
                 user: req.user,
-                // crypto,
+                trip
         })
 });
 

@@ -9,7 +9,7 @@ profileController.get('/', async (req, res) => {
     if (data.gender == 'female') {
         male = false
     }
-    console.log(data);
+
     res.render('profile', {
         title: 'Profile Page',
         user: req.user,

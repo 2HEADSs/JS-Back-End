@@ -32,13 +32,13 @@ authController.post('/register',isGuest(), async (req, res) => {
         }
         const token = await register(req.body.email, req.body.password, req.body.gender);
 
-        //TODO check assignment to see if register create session
+  
         res.cookie('token', token)
         res.redirect('/'); // TODO replace by assignment
     } catch (error) {
         const errors = parseError(error)
         console.log(errors);
-        //TODO add error display to actual template from assignment
+
         res.render('register', {
             title: 'Register page',
             errors,
@@ -66,7 +66,7 @@ authController.post('/login',isGuest(), async (req, res) => {
         res.cookie('token', token);
         res.redirect('/');  // TODO replace with redirect  by assignment
     } catch (error) {
-        //TODO add error display 
+
         const errors = parseError(error);
         res.render('login', {
             title: 'Login Page',

@@ -20,7 +20,6 @@ tripController.get('/', async (req, res) => {
         // let crypto = []
         try {
                 const allTrips = await getAll();
-                console.log(allTrips);
                 res.render('shared-trips', {
                         title: 'Shared Trips',
                         user: req.user,
@@ -72,12 +71,13 @@ tripController.post('/create', async (req, res) => {
 
 
 tripController.get('/details/:id', async (req, res) => {
-        // const crypto = await getById(req.params.id)
+        const trip = await getById(req.params.id)
+        console.log(trip);
         // //isOwner is for edit and delete functionality
         // crypto.isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
 
         // crypto.bayer = crypto.buyer.map(x => x.toString()).includes(req.user?._id.toString())
-        res.render('profile', {
+        res.render('trip-details', {
                 title: 'Details Trip',
                 user: req.user,
                 // crypto,

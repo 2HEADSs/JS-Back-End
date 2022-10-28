@@ -5,11 +5,18 @@ const profileController = require('express').Router()
 profileController.get('/', async (req, res) => {
 
     const data = await getUserWithTrips(req.user._id)
+    let male = true;
+    if (data.gender == 'female') {
+        male = false
+    }
+    console.log(data);
     res.render('profile', {
         title: 'Profile Page',
         user: req.user,
         trips: data.tripHistory,
-        count: data.tripHistory.length
+        count: data.tripHistory.length,
+        male,
+        email: data.email
     })
 })
 

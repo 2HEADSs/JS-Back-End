@@ -6,8 +6,8 @@ async function getAll() {
     return Trip.find({}).lean()
 }
 
-async function createCrypto(crypto) {
-    return Trip.create(crypto)
+async function createTrip(trip) {
+    return Trip.create(trip)
 }
 
 async function getById(id) {
@@ -52,7 +52,7 @@ async function addUserToTrip(bookId, userId) {
 
 module.exports = {
     getAll,
-    createCrypto,
+    createTrip,
     getById,
     editById,
     deleteById,

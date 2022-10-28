@@ -20,7 +20,7 @@ const tripSchema = new Schema({
     buddies: {
         type: [Types.ObjectId], ref: 'User', default: []
     },
-    creator: {
+    owner: {
         type: Types.ObjectId, ref: 'User'
     },
 });

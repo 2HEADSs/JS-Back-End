@@ -5,9 +5,10 @@
 // if (Object.values(req.body).some(x => !x)) {
 //     throw new Error('All fields are required!')
 // }const { isGuest } = require('../middlewares/guard');
-const { getAll, createCrypto, getById, editById, deleteById, buyCrypto, searchRefDATA, addUserToItem } = require('../services/itemServices');
+const { getAll, createTrip, getById, editById, deleteById, buyCrypto, searchRefDATA, addUserToItem } = require('../services/itemServices');
 const { parseError } = require('../util/parser');
-const { hasUser, isGuest } = require('../middlewares/guard')
+const { hasUser, isGuest } = require('../middlewares/guard');
+const { updateUser } = require('../services/userService');
 const tripController = require('express').Router()
 
 
@@ -15,7 +16,7 @@ const tripController = require('express').Router()
 
 
 tripController.get('/', async (req, res) => {
-        //take real cryptos from servicec and send
+        //TODO render real trips
         // let crypto = []
         try {
                 const allTrips = await getAll();
@@ -42,23 +43,28 @@ tripController.get('/create', (req, res) => {
 })
 
 tripController.post('/create', async (req, res) => {
-        //TODO OFER TRIP
-        const crypto = {
-                name: req.body.name,
+
+        const trip = {
+                startPoint: req.body.startPoint,
+                endPoint: req.body.endPoint,
+                date: req.body.date,
+                time: req.body.time,
+                carImage: req.body.carImage,
+                carBrand: req.body.carBrand,
+                seats: req.body.seats,
                 price: req.body.price,
-                imageUrl: req.body.imageUrl,
-                payment: req.body.payment,
                 description: req.body.description,
                 owner: req.user._id,
         }
         try {
-                await createCrypto(crypto)
-                res.redirect('/crypto/catalog')
+                const createdTrip = await createTrip(trip)
+                await updateUser(req.user._id, createdTrip._id)
+                res.redirect('/catalog')
         } catch (error) {
-                res.render('create', {
+                //TODO RETURN VALUE IF ERROR ON FORM
+                res.render('trip-create', {
                         errors: parseError(error),
-                        //BODY
-                        body: crypto,
+                        body: trip,
                         user: req.user
                 })
         }
@@ -66,15 +72,15 @@ tripController.post('/create', async (req, res) => {
 
 
 tripController.get('/details/:id', async (req, res) => {
-        const crypto = await getById(req.params.id)
-        //isOwner is for edit and delete functionality
-        crypto.isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
+        // const crypto = await getById(req.params.id)
+        // //isOwner is for edit and delete functionality
+        // crypto.isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
 
-        crypto.bayer = crypto.buyer.map(x => x.toString()).includes(req.user?._id.toString())
-        res.render('details', {
-                title: 'Details Page',
+        // crypto.bayer = crypto.buyer.map(x => x.toString()).includes(req.user?._id.toString())
+        res.render('profile', {
+                title: 'Details Trip',
                 user: req.user,
-                crypto,
+                // crypto,
         })
 });
 

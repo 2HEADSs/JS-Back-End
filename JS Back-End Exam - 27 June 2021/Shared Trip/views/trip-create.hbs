@@ -2,15 +2,15 @@
     <div class="container offer-trip">
         <h1>Offer trip</h1>
         <div>
-            <form action="" method="">
+            <form  method="post">
                 <div class="offer-label">
                     <label for="startPoint"> <i class="fas fa-map-marker-alt"></i> Starting Point </label>
                     <label for="endPoint"> <i class="fas fa-map-marker-alt"></i> End Point</label>
                 </div>
                 <div class="form-group offer-input">
-                    <input type="text" class="form-control-2" id="startPoint" placeholder="Studentski grad" name=""
+                    <input type="text" class="form-control-2" id="startPoint" placeholder="Studentski grad" name="startPoint"
                         value="">
-                    <input type="text" class="form-control-2" id="endPoint" placeholder="Pamporovo" name="" value="">
+                    <input type="text" class="form-control-2" id="endPoint" placeholder="Pamporovo" name="endPoint" value="">
                 </div>
                 <div class="offer-label">
                     <label for="date"> <i class="far fa-calendar-alt"></i> Date</label>
@@ -25,21 +25,21 @@
                     <label for="carBrand">Car Brand</label>
                 </div>
                 <div class="form-group offer-input">
-                    <input type="text" class="form-control-2" id="carImage" placeholder="https://..." name="" value="">
-                    <input type="text" class="form-control-2" id="carBrand" placeholder="Audi" name="" value="">
+                    <input type="text" class="form-control-2" id="carImage" placeholder="https://..." name="carImage" value="">
+                    <input type="text" class="form-control-2" id="carBrand" placeholder="Audi" name="carBrand" value="">
                 </div>
                 <div class="offer-label">
                     <label for="seats">Available Seats</label>
                     <label for="price">Price</label>
                 </div>
                 <div class="form-group offer-input">
-                    <input type="text" class="form-control-2" id="seats" placeholder="4" name="" value="">
-                    <input type="text" class="form-control-2" id="price" placeholder="25" name="" value="">
+                    <input type="text" class="form-control-2" id="seats" placeholder="4" name="seats" value="">
+                    <input type="text" class="form-control-2" id="price" placeholder="25" name="price" value="">
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
                     <textarea class="form-control" id="description" placeholder="Information about the trip"
-                        name=""></textarea>
+                        name="description"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

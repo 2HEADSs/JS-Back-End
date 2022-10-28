@@ -62,8 +62,15 @@ function verifyToken(token) {
     return jwt.verify(token, JWT_SECRET);
 }
 
+async function updateUser(id, data) {
+    const existing = await User.findById(id);
+    existing.tripHistory.push(data)
+    return existing.save()
+}
+
 module.exports = {
     register,
     login,
-    verifyToken
+    verifyToken,
+    updateUser
 }

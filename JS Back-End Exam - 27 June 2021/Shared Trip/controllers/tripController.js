@@ -7,21 +7,24 @@
 // }const { isGuest } = require('../middlewares/guard');
 const { getAll, createCrypto, getById, editById, deleteById, buyCrypto, searchRefDATA, addUserToItem } = require('../services/itemServices');
 const { parseError } = require('../util/parser');
-const cryptoController = require('express').Router()
+const { hasUser, isGuest } = require('../middlewares/guard')
+const tripController = require('express').Router()
 
 
 //guards
 
 
-cryptoController.get('/catalog', async (req, res) => {
+tripController.get('/', async (req, res) => {
         //take real cryptos from servicec and send
-        let crypto = []
+        // let crypto = []
         try {
-                crypto = await getAll();
-                res.render('catalog', {
-                        title: 'Catalog Page',
+                const allTrips = await getAll();
+                console.log(allTrips);
+                res.render('shared-trips', {
+                        title: 'Shared Trips',
                         user: req.user,
-                        crypto
+                        allTrips
+                        // crypto
                 })
         } catch (error) {
                 res.render('home', {
@@ -31,14 +34,15 @@ cryptoController.get('/catalog', async (req, res) => {
         }
 })
 
-cryptoController.get('/create', isGuest(), (req, res) => {
-        res.render('create', {
-                title: 'Create offer',
+tripController.get('/create', (req, res) => {
+        res.render('trip-create', {
+                title: 'Offer trip',
                 user: req.user
         })
 })
 
-cryptoController.post('/create', isGuest(), async (req, res) => {
+tripController.post('/create', async (req, res) => {
+        //TODO OFER TRIP
         const crypto = {
                 name: req.body.name,
                 price: req.body.price,
@@ -61,7 +65,7 @@ cryptoController.post('/create', isGuest(), async (req, res) => {
 });
 
 
-cryptoController.get('/details/:id', async (req, res) => {
+tripController.get('/details/:id', async (req, res) => {
         const crypto = await getById(req.params.id)
         //isOwner is for edit and delete functionality
         crypto.isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
@@ -74,7 +78,7 @@ cryptoController.get('/details/:id', async (req, res) => {
         })
 });
 
-cryptoController.get('/edit/:id', async (req, res) => {
+tripController.get('/edit/:id', async (req, res) => {
         //TODO guard for Owner
         const crypto = await getById(req.params.id)
         const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
@@ -89,7 +93,7 @@ cryptoController.get('/edit/:id', async (req, res) => {
         })
 })
 
-cryptoController.post('/edit/:id', async (req, res) => {
+tripController.post('/edit/:id', async (req, res) => {
         //TODO guard for Owner
         const crypto = await getById(req.params.id)
         const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
@@ -110,7 +114,7 @@ cryptoController.post('/edit/:id', async (req, res) => {
 });
 
 
-cryptoController.get('/delete/:id', async (req, res) => {
+tripController.get('/delete/:id', async (req, res) => {
         const crypto = await getById(req.params.id)
         const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
 
@@ -122,7 +126,7 @@ cryptoController.get('/delete/:id', async (req, res) => {
 });
 
 
-cryptoController.get('/buy/:id', isGuest(), async (req, res) => {
+tripController.get('/buy/:id', isGuest(), async (req, res) => {
         const crypto = await getById(req.params.id)
         if (crypto.owner.toString() != (req.user?._id)?.toString()
                 && crypto.buyer.map(x => x.toString()).includes((req.user?._id)?.toString()) == false) {
@@ -144,4 +148,4 @@ cryptoController.get('/buy/:id', isGuest(), async (req, res) => {
 
 
 
-module.exports = cryptoController
+module.exports = tripController

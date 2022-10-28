@@ -7,7 +7,7 @@ body {
 
 body::before {
   content: "";
-  background: linear-gradient(rgba(0, 0, 0, 0.76), rgba(0, 0, 0, 0.5)), url('https://sc.6tupian.com/wp-content/uploads/2021/02/1613417565-f9f677ddb0fab5f.jpg');
+  background: linear-gradient(rgba(0, 0, 0, 0.76), rgba(0, 0, 0, 0.5)), url('../images/background.jpg');
   background-size: cover;
   background-position: center;
   position: absolute;
@@ -61,7 +61,8 @@ section div.container.home {
   padding-top: 0;
 }
 
-.home h1, .home p {
+.home h1,
+.home p {
   text-align: center;
   color: white;
 }
@@ -71,12 +72,14 @@ section div.container.home {
   font-style: italic;
 }
 
-.edit-label, .offer-label {
+.edit-label,
+.offer-label {
   display: flex;
   justify-content: space-around;
 }
 
-.edit-input, .offer-input {
+.edit-input,
+.offer-input {
   display: flex;
   justify-content: space-between;
 }
@@ -86,7 +89,8 @@ section div.container.home {
   text-align: center;
 }
 
-.edit textarea.form-control, .offer-trip textarea.form-control {
+.edit textarea.form-control,
+.offer-trip textarea.form-control {
   width: 100%;
   height: 90px;
 }
@@ -133,7 +137,7 @@ h4.card-title {
 
 h5.mt-4 {
   font-size: 1rem;
-  margin-top: 0!important;
+  margin-top: 0 !important;
 }
 
 .card.h-100 {
@@ -145,7 +149,8 @@ h5.mt-4 {
   box-shadow: 0px -2px 20px -1px #f4c537, inset -14px -14px 30px -13px rgb(0 0 0 / 55%);
 }
 
-.card.h-100:hover .card-body, .card.h-100:hover {
+.card.h-100:hover .card-body,
+.card.h-100:hover {
   cursor: grab;
   box-shadow: 0px -2px 20px -1px #64c3fff5, inset -14px -14px 30px -13px rgb(0 0 0 / 55%);
 }
@@ -157,7 +162,7 @@ h5.mt-4 {
 .card-body {
   box-shadow: 0px 5px 9px -2px #f4c537, inset -14px -14px 30px -13px rgb(0 0 0 / 55%);
   text-align: left;
-  padding: 10px 10px 10px 40px!important;
+  padding: 10px 10px 10px 40px !important;
 }
 
 .card-body i {
@@ -201,7 +206,10 @@ img.card-img-top {
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-input.form-control-2, textarea.form-control, input.form-control, textarea:disabled {
+input.form-control-2,
+textarea.form-control,
+input.form-control,
+textarea:disabled {
   box-shadow: 0px -2px 20px -1px #f4c537, inset -14px -14px 30px -13px rgb(0 0 0 / 55%);
   background: rgba(0, 0, 0, 0.5);
   color: white;
@@ -221,20 +229,25 @@ textarea:disabled {
   font-style: italic;
 }
 
-.login, .register {
-  width: 40%!important;
+.login,
+.register {
+  width: 40% !important;
 }
 
-.login input, .register input {
+.login input,
+.register input {
   text-align: center;
 }
 
-.login-page>h1, .register-page>h1, .offer-trip>h1 {
+.login-page>h1,
+.register-page>h1,
+.offer-trip>h1 {
   margin: 2%;
   text-align: center;
 }
 
-input.form-control-2::placeholder, textarea.form-control::placeholder {
+input.form-control-2::placeholder,
+textarea.form-control::placeholder {
   color: rgb(167, 162, 162);
 }
 
@@ -266,21 +279,26 @@ input.form-control-2::placeholder, textarea.form-control::placeholder {
   font-style: italic;
 }
 
-textarea.form-control:focus, input.form-control:focus, input.form-control-2:focus {
+textarea.form-control:focus,
+input.form-control:focus,
+input.form-control-2:focus {
   border: 1px solid #80bdff;
   background: rgba(0, 0, 0, 0.5);
   color: white;
   box-shadow: none;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator {
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   border-radius: 4px;
   margin-right: 2px;
   filter: invert(1);
 }
 
-textarea, textarea.form-control, textarea:disabled {
+textarea,
+textarea.form-control,
+textarea:disabled {
   padding: 5px 10px;
   text-align: center;
   border-top-left-radius: 20px;
@@ -288,7 +306,8 @@ textarea, textarea.form-control, textarea:disabled {
   word-wrap: break-word;
 }
 
-textarea, input {
+textarea,
+input {
   background: rgba(0, 0, 0, 0.6);
 }
 
@@ -298,11 +317,13 @@ textarea, input {
   max-width: 100px;
 }
 
-.icon i, i.buddies {
+.icon i,
+i.buddies {
   font-size: 4em;
 }
 
-div.container .register, div.container .login {
+div.container .register,
+div.container .login {
   margin: 0 auto;
   width: 50%;
   text-align: center;
@@ -312,11 +333,13 @@ div.container .register, div.container .login {
   margin-right: 60px;
 }
 
-label, .container>h1 {
+label,
+.container>h1 {
   color: white;
 }
 
-.gender label:hover, .gender input:hover {
+.gender label:hover,
+.gender input:hover {
   cursor: pointer;
 }
 
@@ -438,11 +461,11 @@ button.btn {
 }
 
 li>a.nav-link {
-  color: rgba(255, 255, 255, 0.8)!important;
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 li>a.nav-link:hover {
-  color: #099cf1!important;
+  color: #099cf1 !important;
 }
 
 .card-img-top {
@@ -450,7 +473,7 @@ li>a.nav-link:hover {
 }
 
 .jumbotron.my-4 {
-  margin-top: 0!important;
+  margin-top: 0 !important;
 }
 
 section>div.container {
@@ -469,6 +492,7 @@ section>div.container {
   transition: all .2s ease-in-out;
   box-shadow: 0px -2px 20px -1px #f4c537, inset -14px -14px 30px -13px rgb(0 0 0 / 55%);
 }
+
 .img-fluid.rounded:hover {
   transform: scale(1.02);
   cursor: grab;
@@ -482,7 +506,7 @@ section>div.container {
 }
 
 .trip-desc {
-  width: 55%!important;
+  width: 55% !important;
   text-align: center;
   word-wrap: break-word;
   padding: 1%;
@@ -491,7 +515,8 @@ section>div.container {
 .trip-desc textarea {
   height: 170px;
 }
-.trip-desc > h5 {
+
+.trip-desc>h5 {
   font-size: 22px;
 }
 
@@ -505,6 +530,7 @@ footer {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -514,6 +540,7 @@ footer {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -523,6 +550,7 @@ footer {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -536,33 +564,43 @@ footer {
     align-content: center;
     justify-content: center;
   }
+
   .trip-info>div img {
     width: 90%;
   }
+
   .trip-info>div {
-    justify-content: space-around!important;
+    justify-content: space-around !important;
   }
+
   .trip-desc {
-    width: 63%!important;
+    width: 63% !important;
     text-align: center;
   }
+
   .brand {
     text-align: center;
   }
-  .brand>span.lead, .trip-desc span.lead {
+
+  .brand>span.lead,
+  .trip-desc span.lead {
     width: 100%;
     word-wrap: break-word;
   }
+
   .collapse.navbar-collapse {
     display: inline-block;
   }
+
   .navbar>.container {
-    flex-wrap: nowrap!important;
+    flex-wrap: nowrap !important;
   }
+
   ul.navbar-nav {
     margin: auto;
     flex-direction: row;
   }
+
   .navbar-nav li {
     padding-left: 20px;
   }

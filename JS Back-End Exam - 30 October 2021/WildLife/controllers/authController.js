@@ -60,7 +60,7 @@ authController.get('/login', (req, res) => {
 authController.post('/login', async (req, res) => {
     try {
         // TODO check if ony username or email or both
-        const token = await login(req.body.username, req.body.password);
+        const token = await login(req.body.email, req.body.password);
 
         //add token to response
         res.cookie('token', token);
@@ -71,9 +71,7 @@ authController.post('/login', async (req, res) => {
         res.render('login', {
             title: 'Login Page',
             errors,
-            body: {
-                username: req.body.username
-            }
+            body: req.body.email
         });
     }
 });

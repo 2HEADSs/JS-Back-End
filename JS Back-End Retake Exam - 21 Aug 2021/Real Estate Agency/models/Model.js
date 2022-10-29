@@ -21,7 +21,7 @@ const itemSchema = new Schema({
         }
     },
     description: { type: String, required: true, maxlength: [60, 'Description must be maximum 60 characters long!'] },
-    availablePieces: { type: Number, required: true, min: [0, 'Pieces must be positive number!'], max: [50, 'Pieces can not be more than 10!'] },
+    availablePieces: { type: Number, required: true, min: [0, 'Pieces must be positive number!'], max: [10, 'Pieces can not be more than 10!'] },
     renters: {
         type: [Types.ObjectId], ref: 'User', default: []
     },

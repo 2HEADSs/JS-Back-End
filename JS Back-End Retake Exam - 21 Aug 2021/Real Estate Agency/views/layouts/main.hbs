@@ -4,16 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <!-- Do not forget to change the path to the css file -->
-    <title>Home Page</title>
-    <link href="/static/css/style.css" type="text/css" rel="stylesheet">
+    <title{{title}}< /title>
+        <link href="/static/css/style.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
 
     <div id="box">
 
-        <!-- In case of error, you should display div with class "errorContainer" -->
-        <!-- You can choose to display the first error or all of them (error message/s in your opinion) -->
 
 
         {{#if errors}}
@@ -37,9 +35,11 @@
                 <li><a href="/auth/login">Login</a></li>
                 <li><a href="/auth/register">Register</a></li>
                 <!-- Logged users -->
+                {{#if user}}
                 <li><a href="/catalog/create">Create offer</a></li>
                 <li><a href="/search">Search</a></li>
-                <li><a href="/logout">Logout</a></li>
+                <li><a href="/auth/logout">Logout</a></li>
+                {{/if}}
             </ul>
         </nav>
 

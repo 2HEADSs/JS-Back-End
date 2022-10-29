@@ -7,7 +7,7 @@ const authController = require('express').Router()
 authController.get('/register', (req, res) => {
     // TODO replace with actual view
     res.render('register', {
-        title: 'Register page'
+        title: 'Register page',
     });
 });
 

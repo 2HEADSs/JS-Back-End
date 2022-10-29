@@ -30,6 +30,6 @@ const itemSchema = new Schema({
 // itemSchema.path('payment').required(true, 'This payment is not allowed!')
 
 
-const Item = model('Crypto', itemSchema);
+const Item = model('Post', itemSchema);
 
 module.exports = Item

@@ -7,21 +7,21 @@
 // }const { isGuest } = require('../middlewares/guard');
 const { getAll, createCrypto, getById, editById, deleteById, buyCrypto, searchRefDATA, addUserToItem } = require('../services/itemServices');
 const { parseError } = require('../util/parser');
-const cryptoController = require('express').Router()
+const postController = require('express').Router()
 
 
 //guards
 
 
-cryptoController.get('/catalog', async (req, res) => {
-        //take real cryptos from servicec and send
-        let crypto = []
+postController.get('/', async (req, res) => {
+        //TODO with real posts
+        let posts = []
         try {
                 crypto = await getAll();
-                res.render('catalog', {
+                res.render('all-posts', {
                         title: 'Catalog Page',
                         user: req.user,
-                        crypto
+                        posts
                 })
         } catch (error) {
                 res.render('home', {
@@ -31,14 +31,14 @@ cryptoController.get('/catalog', async (req, res) => {
         }
 })
 
-cryptoController.get('/create', (req, res) => {
+postController.get('/create', (req, res) => {
         res.render('create', {
                 title: 'Create offer',
                 user: req.user
         })
 })
 
-cryptoController.post('/create', async (req, res) => {
+postController.post('/create', async (req, res) => {
         const crypto = {
                 name: req.body.name,
                 price: req.body.price,
@@ -61,7 +61,7 @@ cryptoController.post('/create', async (req, res) => {
 });
 
 
-cryptoController.get('/details/:id', async (req, res) => {
+postController.get('/details/:id', async (req, res) => {
         const crypto = await getById(req.params.id)
         //isOwner is for edit and delete functionality
         crypto.isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
@@ -74,7 +74,7 @@ cryptoController.get('/details/:id', async (req, res) => {
         })
 });
 
-cryptoController.get('/edit/:id', async (req, res) => {
+postController.get('/edit/:id', async (req, res) => {
         //TODO guard for Owner
         const crypto = await getById(req.params.id)
         const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
@@ -89,7 +89,7 @@ cryptoController.get('/edit/:id', async (req, res) => {
         })
 })
 
-cryptoController.post('/edit/:id', async (req, res) => {
+postController.post('/edit/:id', async (req, res) => {
         //TODO guard for Owner
         const crypto = await getById(req.params.id)
         const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
@@ -110,7 +110,7 @@ cryptoController.post('/edit/:id', async (req, res) => {
 });
 
 
-cryptoController.get('/delete/:id', async (req, res) => {
+postController.get('/delete/:id', async (req, res) => {
         const crypto = await getById(req.params.id)
         const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
 
@@ -122,7 +122,7 @@ cryptoController.get('/delete/:id', async (req, res) => {
 });
 
 
-cryptoController.get('/buy/:id', async (req, res) => {
+postController.get('/buy/:id', async (req, res) => {
         const crypto = await getById(req.params.id)
         if (crypto.owner.toString() != (req.user?._id)?.toString()
                 && crypto.buyer.map(x => x.toString()).includes((req.user?._id)?.toString()) == false) {
@@ -144,4 +144,4 @@ cryptoController.get('/buy/:id', async (req, res) => {
 
 
 
-module.exports = cryptoController
+module.exports = postController

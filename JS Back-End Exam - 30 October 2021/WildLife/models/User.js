@@ -18,7 +18,7 @@ const userSchema = new Schema({
     },
     email: { type: String, required: true, },
     hashedPassword: { type: String, required: true },
-    posts: { type: [Types.ObjectId], ref: 'User', default: [] },
+    posts: { type: [Types.ObjectId], ref: 'Post', default: [] },
 
 });
 

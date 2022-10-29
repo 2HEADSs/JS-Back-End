@@ -5,6 +5,7 @@
 // if (Object.values(req.body).some(x => !x)) {
 //     throw new Error('All fields are required!')
 // }const { isGuest } = require('../middlewares/guard');
+const { hasUser } = require('../middlewares/guard');
 const { getAll, createPost, getById, editById, deleteById, updateUser, getByIdWithAllData, upVote, downVote } = require('../services/itemServices');
 const { parseError } = require('../util/parser');
 const postController = require('express').Router()
@@ -29,14 +30,14 @@ postController.get('/', async (req, res) => {
         }
 })
 
-postController.get('/create', (req, res) => {
+postController.get('/create',hasUser(), (req, res) => {
         res.render('create', {
                 title: 'Create Page',
                 user: req.user
         })
 })
 
-postController.post('/create', async (req, res) => {
+postController.post('/create',hasUser(), async (req, res) => {
         const post = {
                 title: req.body.title,
                 keyword: req.body.keyword,
@@ -90,7 +91,7 @@ postController.get('/details/:id', async (req, res) => {
         })
 });
 
-postController.get('/edit/:id', async (req, res) => {
+postController.get('/edit/:id',hasUser(), async (req, res) => {
         //TODO guard for Owner
         const post = await getById(req.params.id)
         const isOwner = post.author.toString() == (req.user?._id)?.toString();
@@ -105,7 +106,7 @@ postController.get('/edit/:id', async (req, res) => {
         })
 })
 
-postController.post('/edit/:id', async (req, res) => {
+postController.post('/edit/:id',hasUser(), async (req, res) => {
         //TODO guard for Owner
         const post = await getById(req.params.id)
         const isOwner = post.author.toString() == (req.user?._id)?.toString();
@@ -130,7 +131,7 @@ postController.post('/edit/:id', async (req, res) => {
 });
 
 
-postController.get('/delete/:id', async (req, res) => {
+postController.get('/delete/:id',hasUser(), async (req, res) => {
         const post = await getById(req.params.id)
         const isOwner = post.author.toString() == (req.user?._id)?.toString();
 
@@ -142,7 +143,7 @@ postController.get('/delete/:id', async (req, res) => {
 });
 
 
-postController.get('/upVote/:id', async (req, res) => {
+postController.get('/upVote/:id',hasUser(), async (req, res) => {
         const post = await getById(req.params.id)
         if (post.author.toString() != (req.user?._id)?.toString()
                 && post.votes.map(x => x.toString()).includes((req.user?._id)?.toString()) == false) {
@@ -159,7 +160,7 @@ postController.get('/upVote/:id', async (req, res) => {
         }
 });
 
-postController.get('/downVote/:id', async (req, res) => {
+postController.get('/downVote/:id',hasUser(), async (req, res) => {
         const post = await getById(req.params.id)
         if (post.author.toString() != (req.user?._id)?.toString()
                 && post.votes.map(x => x.toString()).includes((req.user?._id)?.toString()) == false) {

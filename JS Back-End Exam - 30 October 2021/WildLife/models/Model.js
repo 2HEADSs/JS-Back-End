@@ -2,8 +2,7 @@ const { Schema, model, Types } = require('mongoose');
 
 const URL_PATTERN = /https?:\/\/./i
 
-//TODO add User properties and validation according to assignment
-//TODO change name of second model-data-base
+
 const itemSchema = new Schema({
     title: { type: String, required: true, minlength: [6, 'Title must be at least 6 characters long!'] },
     keyword: { type: String, required: true, minlength: [6, 'Keyword must be at least 6 characters long!'] },

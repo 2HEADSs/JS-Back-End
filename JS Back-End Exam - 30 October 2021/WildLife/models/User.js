@@ -1,7 +1,7 @@
 const { Schema, model, Types } = require('mongoose');
 
 const namePattern = /^[a-zA-Z0-9]+$/i
-//TODO add User properties and validation according to assignment
+
 const userSchema = new Schema({
     firstName: {
         type: String,

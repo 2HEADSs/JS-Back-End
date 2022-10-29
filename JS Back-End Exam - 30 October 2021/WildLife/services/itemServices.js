@@ -1,12 +1,13 @@
 
 const Item = require('../models/Model');
+const User = require('../models/User')
 
 
 async function getAll() {
     return Item.find({}).lean()
 }
 
-async function createCrypto(crypto) {
+async function createPost(crypto) {
     return Item.create(crypto)
 }
 
@@ -47,17 +48,26 @@ async function addUserToItem(bookId, userId) {
     return existing.save()
 }
 
+async function updateUser(userId, postId) {
+
+    const existing = await User.findById(userId)
+    existing.posts.push(postId)
+
+    return existing.save()
+}
+
 
 //TODO When ready to delete unnecessary 
 
 module.exports = {
     getAll,
-    createCrypto,
+    createPost,
     getById,
     editById,
     deleteById,
     buyCrypto,
     searchRefDATA,
-    addUserToItem
+    addUserToItem,
+    updateUser
 }
 //TODO When ready to delete unnecessary 

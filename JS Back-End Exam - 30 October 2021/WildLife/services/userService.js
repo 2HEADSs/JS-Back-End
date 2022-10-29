@@ -22,7 +22,7 @@ async function register(email, firstName, lastName, password) {
         hashedPassword
     });
 
-    //TODO see assignment if registration creates user session or must render login    
+    
 
     return createSession(user)
 }
@@ -45,7 +45,6 @@ async function login(email, password) {
 }
 
 //method do sign(create) payload for cookie- will not be exports
-//TODO check what to add to payload
 function createSession({ _id, email, firstName, lastName }) {
     const payload = {
         _id,

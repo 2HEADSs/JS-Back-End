@@ -5,7 +5,7 @@
 // if (Object.values(req.body).some(x => !x)) {
 //     throw new Error('All fields are required!')
 // }const { isGuest } = require('../middlewares/guard');
-const { getAll, createCrypto, getById, editById, deleteById, buyCrypto, searchRefDATA, addUserToItem } = require('../services/itemServices');
+const { getAll, createPost, getById, editById, deleteById, buyCrypto, searchRefDATA, addUserToItem, updateUser } = require('../services/itemServices');
 const { parseError } = require('../util/parser');
 const postController = require('express').Router()
 
@@ -33,28 +33,35 @@ postController.get('/', async (req, res) => {
 
 postController.get('/create', (req, res) => {
         res.render('create', {
-                title: 'Create offer',
+                title: 'Create Page',
                 user: req.user
         })
 })
 
 postController.post('/create', async (req, res) => {
-        const crypto = {
-                name: req.body.name,
-                price: req.body.price,
+        const post = {
+                title: req.body.title,
+                keyword: req.body.keyword,
+                location: req.body.location,
+                date: req.body.date,
                 imageUrl: req.body.imageUrl,
-                payment: req.body.payment,
                 description: req.body.description,
-                owner: req.user._id,
+                author: req.user._id,
         }
+
+
         try {
-                await createCrypto(crypto)
-                res.redirect('/crypto/catalog')
+                if (Object.values(req.body).some(x => !x)) {
+                        throw new Error('All fields are required!')
+                }
+                const createdPost = await createPost(post)
+                await updateUser(req.user._id, createdPost._id)
+                res.redirect('/catalog')
         } catch (error) {
                 res.render('create', {
                         errors: parseError(error),
-                        //BODY
-                        body: crypto,
+
+                        body: post,
                         user: req.user
                 })
         }

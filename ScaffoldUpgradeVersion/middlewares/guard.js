@@ -1,6 +1,5 @@
 
 //if path is available only for register user
-
 function hasUser() {
     return (req, res, next) => {
         if (req.user) {
@@ -28,3 +27,7 @@ module.exports = {
     hasUser,
     isGuest
 }
+
+
+//TODO to add guards
+//TODO CLEAR UNNECESSARY

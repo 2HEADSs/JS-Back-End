@@ -39,7 +39,7 @@ cryptoController.get('/create', (req, res) => {
 })
 
 cryptoController.post('/create', async (req, res) => {
-        const crypto = {
+        const item = {
                 name: req.body.name,
                 price: req.body.price,
                 imageUrl: req.body.imageUrl,
@@ -48,13 +48,17 @@ cryptoController.post('/create', async (req, res) => {
                 owner: req.user._id,
         }
         try {
-                await createCrypto(crypto)
+                if (Object.values(req.body).some(x => !x)) {
+                        throw new Error('All fields are required!')
+                }
+
+                const data = await createCrypto(item)
                 res.redirect('/crypto/catalog')
         } catch (error) {
                 res.render('create', {
                         errors: parseError(error),
                         //BODY
-                        body: crypto,
+                        data,
                         user: req.user
                 })
         }

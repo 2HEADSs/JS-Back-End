@@ -5,7 +5,7 @@
 // if (Object.values(req.body).some(x => !x)) {
 //     throw new Error('All fields are required!')
 // }const { isGuest } = require('../middlewares/guard');
-const { getAll, createPost, getById, editById, deleteById, buyCrypto, searchRefDATA, addUserToItem, updateUser } = require('../services/itemServices');
+const { getAll, createPost, getById, editById, deleteById, updateUser, getByIdWithAllData, upVote, downVote } = require('../services/itemServices');
 const { parseError } = require('../util/parser');
 const postController = require('express').Router()
 
@@ -14,10 +14,8 @@ const postController = require('express').Router()
 
 
 postController.get('/', async (req, res) => {
-        //TODO with real posts
-        let posts = []
         try {
-                crypto = await getAll();
+                const posts = await getAll();
                 res.render('all-posts', {
                         title: 'Catalog Page',
                         user: req.user,
@@ -60,7 +58,6 @@ postController.post('/create', async (req, res) => {
         } catch (error) {
                 res.render('create', {
                         errors: parseError(error),
-
                         body: post,
                         user: req.user
                 })
@@ -69,22 +66,34 @@ postController.post('/create', async (req, res) => {
 
 
 postController.get('/details/:id', async (req, res) => {
-        const crypto = await getById(req.params.id)
+        const post = await getByIdWithAllData(req.params.id)
         //isOwner is for edit and delete functionality
-        crypto.isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
+        const isOwner = post.author._id.toString() == (req.user?._id)?.toString();
 
-        crypto.bayer = crypto.buyer.map(x => x.toString()).includes(req.user?._id.toString())
+        const author = [post.author.firstName + ' ' + post.author.lastName];
+        const raiting = post.raiting
+        const votesCount = post.votes.length == 0 ? 0 : raiting
+        const alreadyVotedUser = post.votes.map(x => x._id.toString()).includes(req.user?._id.toString())
+        const postHasVotes = post.votes.length > 0
+        const votedList = []
+        post.votes.map(x => votedList.push(x.email))
         res.render('details', {
                 title: 'Details Page',
                 user: req.user,
-                crypto,
+                post,
+                author,
+                alreadyVotedUser,
+                isOwner,
+                votesCount,
+                postHasVotes,
+                votedList
         })
 });
 
 postController.get('/edit/:id', async (req, res) => {
         //TODO guard for Owner
-        const crypto = await getById(req.params.id)
-        const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
+        const post = await getById(req.params.id)
+        const isOwner = post.author.toString() == (req.user?._id)?.toString();
         if (!isOwner) {
                 res.redirect('/auth/login')
         }
@@ -92,25 +101,29 @@ postController.get('/edit/:id', async (req, res) => {
         res.render('edit', {
                 title: 'Edit Page',
                 user: req.user,
-                crypto,
+                post,
         })
 })
 
 postController.post('/edit/:id', async (req, res) => {
         //TODO guard for Owner
-        const crypto = await getById(req.params.id)
-        const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
+        const post = await getById(req.params.id)
+        const isOwner = post.author.toString() == (req.user?._id)?.toString();
         if (!isOwner) {
                 res.redirect('/auth/login')
         }
 
         try {
+                if (Object.values(req.body).some(x => !x)) {
+                        throw new Error('All fields are required!')
+                }
+
                 await editById(req.params.id, req.body)
-                res.redirect(`/crypto/details/${req.params.id}`)
+                res.redirect(`/catalog/details/${req.params.id}`)
         } catch (error) {
                 res.render('edit', {
-                        error: parseError(error),
-                        crypto,
+                        errors: parseError(error),
+                        post,
                         user: req.user
                 })
         }
@@ -118,28 +131,27 @@ postController.post('/edit/:id', async (req, res) => {
 
 
 postController.get('/delete/:id', async (req, res) => {
-        const crypto = await getById(req.params.id)
-        const isOwner = crypto.owner.toString() == (req.user?._id)?.toString();
+        const post = await getById(req.params.id)
+        const isOwner = post.author.toString() == (req.user?._id)?.toString();
 
         if (!isOwner) {
-                return res.redirect(`/auth/login/`)
+                return res.redirect(`/`)
         }
         await deleteById(req.params.id)
-        res.redirect('/crypto/catalog')
+        res.redirect('/catalog')
 });
 
 
-postController.get('/buy/:id', async (req, res) => {
-        const crypto = await getById(req.params.id)
-        if (crypto.owner.toString() != (req.user?._id)?.toString()
-                && crypto.buyer.map(x => x.toString()).includes((req.user?._id)?.toString()) == false) {
+postController.get('/upVote/:id', async (req, res) => {
+        const post = await getById(req.params.id)
+        if (post.author.toString() != (req.user?._id)?.toString()
+                && post.votes.map(x => x.toString()).includes((req.user?._id)?.toString()) == false) {
                 try {
-                        await buyCrypto(req.params.id, req.user._id);
-                        res.redirect(`/crypto/details/${req.params.id}`)
+                        await upVote(req.params.id, req.user._id);
+                        res.redirect(`/catalog/details/${req.params.id}`)
                 } catch (error) {
-                        res.render('catalog', {
-                                error: parseError(error),
-                                crypto,
+                        res.render('all-posts', {
+                                errors: parseError(error),
                                 user: req.user
                         })
                 }
@@ -147,6 +159,22 @@ postController.get('/buy/:id', async (req, res) => {
         }
 });
 
+postController.get('/downVote/:id', async (req, res) => {
+        const post = await getById(req.params.id)
+        if (post.author.toString() != (req.user?._id)?.toString()
+                && post.votes.map(x => x.toString()).includes((req.user?._id)?.toString()) == false) {
+                try {
+                        await downVote(req.params.id, req.user._id);
+                        res.redirect(`/catalog/details/${req.params.id}`)
+                } catch (error) {
+                        res.render('all-posts', {
+                                errors: parseError(error),
+                                user: req.user
+                        })
+                }
+
+        }
+});
 
 
 

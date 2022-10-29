@@ -7,7 +7,7 @@ const itemSchema = new Schema({
     title: { type: String, required: true, minlength: [6, 'Title must be at least 6 characters long!'] },
     keyword: { type: String, required: true, minlength: [6, 'Keyword must be at least 6 characters long!'] },
     location: { type: String, required: true, maxLength: [15, 'Location must be maximum 15 characters long!'] },
-    date: { type: String, required: true, count: [10, 'Date must be exact 10 characters long!'] },
+    date: { type: String, required: true, minlength: [10, 'Date must be exact 10 characters long!'],maxLength: [10, 'Date must be exact 10 characters long!'] },
     imageUrl: {
         type: String,
         validate: {

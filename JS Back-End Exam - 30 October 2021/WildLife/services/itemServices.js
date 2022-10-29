@@ -15,24 +15,38 @@ async function getById(id) {
     return Item.findById(id).lean()
 }
 
+async function getByIdWithAllData(id) {
+    return Item.findById(id).populate('author').populate('votes').lean()
+}
+
 async function deleteById(id) {
     return Item.findByIdAndDelete(id)
 }
 
 async function editById(id, data) {
     const existing = await Item.findById(id);
-    existing.name = data.name
-    existing.imageUrl = data.imageUrl
-    existing.price = data.price
+    existing.title = data.title
+    existing.keyword = data.keyword
+    existing.location = data.location
     existing.description = data.description
-    existing.payment = data.payment
+    existing.date = data.date
+    existing.imageUrl = data.imageUrl
+    existing.description = data.description
+
 
     return existing.save()
 }
 
-async function buyCrypto(cryptoId, userId) {
-    const existing = await Item.findById(cryptoId)
-    existing.buyer.push(userId);
+async function upVote(postId, userId) {
+    const existing = await Item.findById(postId)
+    existing.votes.push(userId);
+    existing.raiting++
+    return existing.save()
+}
+async function downVote(postId, userId) {
+    const existing = await Item.findById(postId)
+    existing.votes.push(userId);
+    existing.raiting--
     return existing.save()
 }
 
@@ -65,9 +79,11 @@ module.exports = {
     getById,
     editById,
     deleteById,
-    buyCrypto,
+    upVote,
     searchRefDATA,
     addUserToItem,
-    updateUser
+    updateUser,
+    getByIdWithAllData,
+    downVote
 }
 //TODO When ready to delete unnecessary 

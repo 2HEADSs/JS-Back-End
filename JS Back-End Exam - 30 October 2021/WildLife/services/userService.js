@@ -63,8 +63,13 @@ function verifyToken(token) {
     return jwt.verify(token, JWT_SECRET);
 }
 
+async function getUserWithPosts(id){
+    return await User.findById(id).populate('posts').lean()
+}
+
 module.exports = {
     register,
     login,
-    verifyToken
+    verifyToken,
+    getUserWithPosts
 }

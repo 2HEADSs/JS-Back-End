@@ -3,28 +3,61 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
+
+    <!-- Do not forget to change the path to the css file -->
+    <link href="/static/css/style.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
-    <a href="/auth/login">Login</a>
-    <a href="/auth/register">Register</a>
-    <a href="/auth/logout">Logout</a>
 
-    {{#if errors}}
-    {{!-- {{#if error}}?? --}}
-    <div>
-        {{#each errors}}
-        <p>{{this}}</p>
-        {{/each}}
+
+
+    <div id="box">
+
+        {{#if errors}}
+        {{!-- {{#if error}}?? --}}
+        <div class="error-container">
+            {{#each errors}}
+            <p>{{this}}</p>
+            {{/each}}
+        </div>
+        {{/if}}
+
+
+        <nav>
+            <!-- Do not forget to change the path to the image -->
+            <img src="/static/img/logo.png" alt="logo">
+
+            <ul class="menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/catalog">All Posts</a></li>
+                {{#if user}}
+                <!-- Logged users -->
+                <li><a href="/catalog/create">Create Post</a></li>
+                <li><a href="/profile">Posts of {{email-of-user}}</a></li>
+                <li><a href="/auth/logout">Logout</a></li>
+                {{else}}
+                <!-- Guest users -->
+                <li><a href="/auth/register">Register</a></li>
+                <li><a href="/auth/login">Login</a></li>
+                {{/if}}
+            </ul>
+
+        </nav>
+
+        <main>
+
+            {{{body}}}
+
+
+        </main>
+
+
+        <footer>
+            © Js Back-End Exam 2021
+        </footer>
     </div>
-    {{/if}}
-
-    {{!-- if we use {{}} hendlebars will escape html wich we send to the template--}}
-    {{{body}}}
-
 
 </body>
 

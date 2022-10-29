@@ -5,8 +5,10 @@ const URL_PATTERN = /https?:\/\/./i
 //TODO add User properties and validation according to assignment
 //TODO change name of second model-data-base
 const itemSchema = new Schema({
-    name: { type: String, required: true, minlength: [2, 'Title must be at least 2 characters long!'] },
-    price: { type: Number, required: true, min: [0, 'Price must be positive number!'] },
+    title: { type: String, required: true, minlength: [6, 'Title must be at least 6 characters long!'] },
+    keyword: { type: String, required: true, minlength: [6, 'Keyword must be at least 6 characters long!'] },
+    location: { type: String, required: true, maxLength: [15, 'Location must be maximum 15 characters long!'] },
+    date: { type: String, required: true, count: [10, 'Date must be exact 10 characters long!'] },
     imageUrl: {
         type: String,
         validate: {
@@ -14,21 +16,14 @@ const itemSchema = new Schema({
             message: 'Invalid URL, must start with HTTP/HTTPS'
         }
     },
-    description: { type: String, required: true, minlength: [10, 'Description must be at least 10 characters long!'] },
-    payment: {
-        type: String,
-        required: true,
-        enum: ['crypto-wallet', 'credit-card', 'debit-card', 'paypal'],
-        message: ['This payment is not allowed!'] 
-        // minValue: 1,
-        // maxValue: 5,
-    },
-    buyer: {
-        type: [Types.ObjectId], ref: 'User', default: []
-    },
-    owner: {
+    description: { type: String, required: true, minlength: [8, 'Description must be at least 8 characters long!'] },
+    author: {
         type: Types.ObjectId, ref: 'User'
     },
+    votes: {
+        type: [Types.ObjectId], ref: 'User', default: []
+    },
+    raiting: { type: Number, required: true, default: 0 },
 });
 
 

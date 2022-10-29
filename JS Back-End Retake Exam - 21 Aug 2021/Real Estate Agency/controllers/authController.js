@@ -1,6 +1,5 @@
 const { register, login } = require('../services/userService');
 const { parseError } = require('../util/parser');
-const { isEmail } = require('validator')
 
 const authController = require('express').Router()
 
@@ -13,18 +12,13 @@ authController.get('/register', (req, res) => {
 
 authController.post('/register', async (req, res) => {
     try {
-        if (!isEmail(req.body.email)) {
-            throw new Error('Invalid email')
-        }
-
-
-        if (req.body.email == '' || req.body.username == '' || req.body.password == '' || req.body.repass == '') {
+        if (req.body.name == '' || req.body.username == '' || req.body.password == '' || req.body.repass == '') {
             throw new Error('All fields are required!')
         }
         if (req.body.password != req.body.repass) {
             throw new Error('Passwords don\'t match!')
         }
-        const token = await register(req.body.email, req.body.username, req.body.password);
+        const token = await register(req.body.name, req.body.username, req.body.password);
 
         res.cookie('token', token)
         res.redirect('/'); // TODO replace by assignment
@@ -35,9 +29,7 @@ authController.post('/register', async (req, res) => {
         res.render('register', {
             title: 'Register page',
             errors,
-            body: {
-                username: req.body.username
-            }
+            body: req.body
         });
     }
 

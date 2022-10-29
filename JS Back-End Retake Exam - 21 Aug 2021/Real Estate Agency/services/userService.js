@@ -5,7 +5,7 @@ const user = require('../models/User');
 
 const JWT_SECRET = 'q982hdeoaus0ajaa'
 
-async function register(email, username, password) {
+async function register(name, username, password) {
     //check if username is already exist
 
     //collation to search case insensitive

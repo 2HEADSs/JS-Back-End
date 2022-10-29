@@ -2,9 +2,9 @@
     <h1>My post.</h1>
 
     <div class="my-container">
-        {{#if posts}}
+        {{#if data}}
         <!-- If there are own posts for wildlife in the database display each of them -->
-        {{#each posts}}
+        {{#each data}}
         <div class="my-card">
             <div class="card-header">
                 <img src="{{imageUrl}}" alt="{{title}}" />
@@ -18,7 +18,7 @@
                     <img src="https://snworksceo.imgix.net/dtc/3f23c937-0065-4e17-8daa-46449777caed.sized-1000x1000.jpg?w=1000"
                         alt="vote" />
                     <div class="user-info">
-                        <h5>Author: {{author}}</h5>
+                        <h5>Author: {{author.email}}</h5>
                         <small>Rating of votes: {{raiting}}</small>
                     </div>
                 </div>

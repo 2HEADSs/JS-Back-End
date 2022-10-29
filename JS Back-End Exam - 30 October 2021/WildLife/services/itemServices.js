@@ -23,6 +23,7 @@ async function deleteById(id) {
     return Item.findByIdAndDelete(id)
 }
 
+
 async function editById(id, data) {
     const existing = await Item.findById(id);
     existing.title = data.title
@@ -32,8 +33,8 @@ async function editById(id, data) {
     existing.date = data.date
     existing.imageUrl = data.imageUrl
     existing.description = data.description
-
-
+    
+    
     return existing.save()
 }
 
@@ -58,18 +59,21 @@ async function searchRefDATA(userId) {
 async function addUserToItem(bookId, userId) {
     const existing = await Book.findById(bookId)
     existing.wishingList.push(userId)
-
+    
     return existing.save()
 }
 
 async function updateUser(userId, postId) {
-
+    
     const existing = await User.findById(userId)
     existing.posts.push(postId)
-
+    
     return existing.save()
 }
 
+async function getByUserCreate(userId) {
+    return Item.find({ author: userId }).populate('author').lean()
+}
 
 //TODO When ready to delete unnecessary 
 
@@ -84,6 +88,7 @@ module.exports = {
     addUserToItem,
     updateUser,
     getByIdWithAllData,
-    downVote
+    downVote,
+    getByUserCreate
 }
 //TODO When ready to delete unnecessary 

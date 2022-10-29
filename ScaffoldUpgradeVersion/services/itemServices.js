@@ -1,5 +1,6 @@
 
 const Item = require('../models/Model');
+const User = require('../models/User');
 
 
 async function getAll() {
@@ -48,6 +49,10 @@ async function addUserToItem(bookId, userId) {
 }
 
 
+async function getByUserCreate(userId) {
+    return Item.find({ author: userId }).populate('author').lean()
+}
+
 //TODO When ready to delete unnecessary 
 
 module.exports = {
@@ -58,6 +63,7 @@ module.exports = {
     deleteById,
     buyCrypto,
     searchRefDATA,
-    addUserToItem
+    addUserToItem,
+    getByUserCreate
 }
 //TODO When ready to delete unnecessary 

@@ -41,6 +41,19 @@ app.delete('/data/:id', (req, res) => {
     const itemIndex = products.findIndex(x => x.id == req.params.id)
     products.splice(itemIndex, 1)
     res.status(202).end()
+});
+
+app.get('/data/:id', (req, res) => {
+    const item = products.find(x => x.id == req.params.id)
+    res.json(item)
+});
+
+app.put('/data/:id', (req, res) => {
+    const item = products.find(x => x.id == req.params.id)
+    item.name = req.body.name
+    item.price = Number(req.body.price);
+
+    res.status(202).end()
 })
 
 app.listen(3000, console.log('Start on localhost 3000'))

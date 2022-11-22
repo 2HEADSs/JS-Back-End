@@ -51,7 +51,6 @@ export async function registerPage(ctx) {
         if (password != repass) {
             return ctx.render(registerTemplate(onSubmit, 'Passwords don\'t match!', false, true, true));
         }
-
         await register(email, password);
         
         ctx.setUserNav();

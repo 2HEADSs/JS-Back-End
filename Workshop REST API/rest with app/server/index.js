@@ -3,7 +3,7 @@ const {mongoose } = require('mongoose');
 const authController = require('./controllers/authController');
 const cors = require('./middlewares/cors');
 
-const connectionString = 'mongodb://127.0.0.1:27017/furniture2';
+const connectionString = 'mongodb://127.0.0.1:27017/furniture';
 
 
 start();

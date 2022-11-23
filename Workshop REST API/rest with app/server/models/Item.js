@@ -5,7 +5,7 @@ const itemSchema = new Schema({
     model: { type: String, required: true, minlength: [3, 'Model must be at least 3 characters long!'] },
     year: {
         type: Number, required: true, validate: {
-            validator: value >= 1950 && value <= 2050,
+            validator: value => value >= 1950 && value <= 2050,
             message: 'Year must be between1950 and 2050'
         }
     },

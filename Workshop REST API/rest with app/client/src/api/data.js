@@ -31,5 +31,6 @@ export async function editRecord(id, data) {
 }
 
 export async function deleteRecord(id) {
+    console.log('delete');
     return await api.del(host + '/data/catalog/' + id);
 }

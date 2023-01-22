@@ -41,6 +41,7 @@ function decorateContext(ctx, next) {
 function setUserNav() {
     const userId = sessionStorage.getItem('userId');
     if (userId != null) {
+        console.log('asd');
         document.getElementById('user').style.display = 'inline-block';
         document.getElementById('guest').style.display = 'none';
     } else {

@@ -5,6 +5,7 @@ export const settings = {
 async function request(url, options) {
     try {
         const response = await fetch(url, options);
+        console.log(response.ok + 'respone');
         if (response.ok == false) {
             const error = await response.json();
             throw new Error(error.message);
@@ -42,6 +43,8 @@ function getOptions(method = 'get', body) {
 }
 
 export async function get(url) {
+    console.log('url');
+    console.log('url');
     return await request(url, getOptions());
 }
 
